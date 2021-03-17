@@ -1,3 +1,3 @@
-# ML Mario QLearning
+# Mario Q
 
-Machine Learning project to teach mario how to complete level with gym.
+Projet de Machine Learning pour l'apprentissage de Super Mario Bros par des méthodes de renforcement.
