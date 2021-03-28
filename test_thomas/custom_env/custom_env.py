@@ -15,7 +15,7 @@ class CustomEnv(SuperMarioBrosEnv):
         return self._custom_reward()
 
     def _custom_state(self):
-        return ["c vide"]
+        return self.ram
 
     def step(self, action):
         _, reward, done, info = super().step(action)
