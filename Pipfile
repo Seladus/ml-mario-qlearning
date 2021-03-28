@@ -10,11 +10,12 @@ tensorflow = "*"
 tensorboard = "*"
 numpy = "*"
 scipy = "*"
+tf-agents = "*"
 
 [dev-packages]
-black = "*"
 pylint = "*"
 pytest = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.8"
