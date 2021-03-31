@@ -10,4 +10,13 @@ env.reset()
 
 state, reward, done, info = env.step(env.action_space.sample())
 
-print(state, reward, done, info)
+i = 0
+
+while True:
+    i += 1
+    if not i % 1000:
+        print(i)
+    action = env.action_space.sample()
+    observation, reward, done, info = env.step(action)
+    if done:
+        break
