@@ -12,7 +12,7 @@ class CustomEnv(SuperMarioBrosEnv):
         return 10
 
     def _get_reward(self):
-        return self.ram
+        return self._custom_reward()
 
     def _custom_state(self):
         return self.ram
@@ -26,13 +26,17 @@ class CustomEnv(SuperMarioBrosEnv):
         parent_info["test"] = self._test
         return parent_info
 
+    def action_spec(self):
+        return None
+
 def register_custom_env():
+    import gym
 
     ENV_NAME = "CustomEnv-v0"
 
     gym.envs.registration.register(
         id=ENV_NAME,
-        entry_point="custom_env:CustomEnv",
+        entry_point="dqn_env:CustomEnv",
         max_episode_steps=9999999,
         reward_threshold=9999999,
         nondeterministic=True
