@@ -46,7 +46,8 @@ class Agent:
                 model_name='dqn_network',
                 demo_mode=False,
                 model_path="",
-                double_q_learning=False):
+                double_q_learning=False,
+                target_update_frequency=1000):
         self.actions = [i for i in range(nb_actions)]
         self.gamma = gamma
         self.epsilon = epsilon
@@ -60,6 +61,8 @@ class Agent:
         self.save_frequency = save_frequency
         self.name = model_name
         self.double_q = double_q_learning
+        self.step = 0
+        self.update_frequency = target_update_frequency
 
         if demo_mode:
             self.q_eval = tf.keras.models.load_model(model_path)
@@ -104,6 +107,8 @@ class Agent:
     def learn(self):
         if len(self.memory.buffer) < self.batch_size:
             return
+        if self.step % self.update_frequency == 0:
+            self.update_target()
         if self.learning_step % self.learning_frequency != 0:
             self.learning_step += 1
             return
@@ -119,12 +124,13 @@ class Agent:
             targets = q_values_state
             updates = np.zeros(rewards.shape)
 
-            indexes = np.arange(self.batch_size)
-
             action = np.argmax(q_values_next_state, axis=1) # argmax(Q(S_t+1, a))
-            q_values_next_state_target = self.q_target(next_states)
+            q_values_next_state_target = self.q_target.predict(next_states)
+            updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[range(self.batch_size), action]
+            targets[range(self.batch_size), actions] = updates
+            self.q_eval.train_on_batch(states, targets)
 
-            input()
+
 
         else:
             q_next = self.q_eval.predict(next_states).max(axis=1)
@@ -148,7 +154,8 @@ if __name__=="__main__":
                 batch_size=64,
                 epsilon_end=0.01,
                 epsilon_decay=0.99,
-                double_q_learning=False)
+                double_q_learning=True,
+                target_update_frequency=200)
     rewards = []
     epsilon_history = []
 
