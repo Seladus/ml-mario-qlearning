@@ -75,7 +75,8 @@ class Agent:
 
 
     def update_target(self):
-        copy_weights(self.q_eval, self.q_target)
+        if self.double_q:
+            copy_weights(self.q_eval, self.q_target)
 
     def create_model(self, learning_rate, input_dims, nb_actions):
         model = keras.Sequential([
@@ -143,7 +144,7 @@ if __name__=="__main__":
     tf.compat.v1.disable_eager_execution()
     env = gym.make('LunarLander-v2')
     learning_rate = 0.001
-    episodes = 300
+    episodes = 800
     agent = Agent(gamma=0.99, 
                 epsilon=1.0, 
                 learning_rate=learning_rate,
@@ -153,9 +154,9 @@ if __name__=="__main__":
                 memory_size=10000000,
                 batch_size=64,
                 epsilon_end=0.01,
-                epsilon_decay=0.99,
+                epsilon_decay=0.995,
                 double_q_learning=True,
-                target_update_frequency=200)
+                target_update_frequency=1000)
     rewards = []
     epsilon_history = []
 
