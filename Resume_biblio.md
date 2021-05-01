@@ -7,8 +7,8 @@
   - [Présentation de la méthode](#présentation-de-la-méthode)
     - [Deep Reinforcement Learning](#deep-reinforcement-learning)
     - [Avantages](#avantages)
-      - [Avantages vis à vis du Deep Learning](#avantages-vis-à-vis-du-deep-learning)
-      - [Avantages vis à vis du Q-Learning](#avantages-vis-à-vis-du-q-learning)
+      - [Avantages vis-à-vis du Deep Learning](#avantages-vis-à-vis-du-deep-learning)
+      - [Avantages vis-à-vis du Q-Learning](#avantages-vis-à-vis-du-q-learning)
     - [Limites](#limites)
   - [Résultats des expériences](#résultats-des-expériences)
 
@@ -45,13 +45,23 @@ L'agent suit une politique $\epsilon$-greedy, c'est à dire qu'il a une probabil
 
 ### Avantages
 
-Cette méthode, selon ses auteurs, présente de nombreux avantages.  Elle présente notement des avantages par rapport aux autres méthodes de Deep Learning, mais aussi par rapport aux autres approches du Q-Learning.
+Cette méthode, selon ses auteurs, présente de nombreux avantages. Elle présente notamment des avantages par rapport aux autres méthodes de Deep Learning, mais aussi par rapport aux autres approches du Q-Learning.
 
-#### Avantages vis à vis du Deep Learning
+#### Avantages vis-à-vis du Deep Learning
 
-#### Avantages vis à vis du Q-Learning
+Dans un premier temps, la plupart des méthodes de Machine Learning performantes à ce jour ont besoin d'une grande quantité de données étiquetées pour leur apprentissage. Ce n'est pas le cas des algorithmes de renforcement. En effet, ces algorithmes apprennent seulement à partir de leur environnement et des récompenses qui y sont associées.
+
+De plus, de nombreux algorithmes de Deep Learning sont basées sur la supposition que les échantillons sont iid (*independent and identically distributed*). Lors d'un apprentissage par renforcement, il n'est pas rare de rencontrer des séquences de données fortement corrélées, ils le deviennent d'ailleurs de plus en plus, au fil de l'apprentissage de l'algorithme. La distribution n'est pas non plus identique puisque le comportement de l'agent sont aussi amenés à changer vers un comportement "parfait".
+
+#### Avantages vis-à-vis du Q-Learning
 
 ### Limites
+
+Les algos peuvent mettre longtemps à s'entrainer
+
+vu que c'est basé sur du random on peut attendre 3 ans avant qu'il trouve le pattern permettant de gagner (surtout pour des jeux complexes)
+
+la distribution des données change au fur et à mesure que l'algorithme apprend de nouveaux comportements, ce qui peut être problématique pour les méthodes d'apprentissage profond qui supposent une distribution sous-jacente fixe
 
 Qu'est-ce que ça coûte ?
 
