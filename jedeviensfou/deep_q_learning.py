@@ -5,6 +5,7 @@ from tensorflow import keras
 from tensorflow.keras.optimizers import Adam
 from collections import deque
 import gym
+import json
 
 def copy_weights(source, destination):
     destination.set_weights(source.get_weights())
@@ -18,17 +19,8 @@ class ExperienceBuffer:
         self.buffer.append(experience)
     
     def sample(self, sample_size):
+        #return np.random.choice(self.buffer, sample_size)
         return random.sample(self.buffer, sample_size)
-
-def build_dqn(learning_rate, input_dims, nb_actions, dim1, dim2):
-    model = keras.Sequential([
-        keras.layers.Input(input_dims),
-        keras.layers.Dense(dim1, activation='relu'),
-        keras.layers.Dense(dim2, activation='relu'),
-        keras.layers.Dense(nb_actions, activation='linear')
-    ])
-    model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mse')
-    return model
 
 class Agent:
     def __init__(self, 
@@ -38,6 +30,7 @@ class Agent:
                 epsilon,
                 batch_size,
                 input_dims,
+                burnin,
                 learning_frequency=4,
                 epsilon_decay=0.99,
                 epsilon_end=0.01,
@@ -47,7 +40,8 @@ class Agent:
                 demo_mode=False,
                 model_path="",
                 double_q_learning=False,
-                target_update_frequency=1000):
+                target_update_frequency=1000,
+                is_epsilon_decaying=False):
         self.actions = [i for i in range(nb_actions)]
         self.gamma = gamma
         self.epsilon = epsilon
@@ -63,6 +57,8 @@ class Agent:
         self.double_q = double_q_learning
         self.step = 0
         self.update_frequency = target_update_frequency
+        self.is_epsilon_decaying = is_epsilon_decaying
+        self.burnin = burnin
 
         if demo_mode:
             self.q_eval = tf.keras.models.load_model(model_path)
@@ -74,8 +70,13 @@ class Agent:
                 self.update_target()
 
 
+    def decrease_epsilon(self):
+        self.epsilon *= self.epsilon_decay
+        self.epsilon = max(self.epsilon_end, self.epsilon)
+
     def update_target(self):
         if self.double_q:
+            print("[INFO] updating target network...")
             copy_weights(self.q_eval, self.q_target)
 
     def create_model(self, learning_rate, input_dims, nb_actions):
@@ -86,7 +87,7 @@ class Agent:
             keras.layers.Dense(32, activation='relu'),
             keras.layers.Dense(nb_actions, activation='linear')
         ])
-        model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mse')
+        model.compile(optimizer=Adam(learning_rate=learning_rate), loss='huber_loss')
         return model
     
     def save_model(self, episode_count, path="saves/models"):
@@ -103,10 +104,15 @@ class Agent:
             state = np.array([observation])
             q_values = self.q_eval.predict(state)
             action = np.argmax(q_values)
+
+        if self.is_epsilon_decaying and self.step > self.burnin:
+            self.decrease_epsilon()
+        
+        self.step += 1
         return action
     
     def learn(self):
-        if len(self.memory.buffer) < self.batch_size:
+        if len(self.memory.buffer) < self.burnin:
             return
         if self.step % self.update_frequency == 0:
             self.update_target()
@@ -153,6 +159,7 @@ if __name__=="__main__":
                 learning_frequency=1,
                 memory_size=10000000,
                 batch_size=64,
+                burnin=64,
                 epsilon_end=0.01,
                 epsilon_decay=0.995,
                 double_q_learning=True,
