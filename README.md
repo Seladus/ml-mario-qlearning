@@ -23,6 +23,7 @@ On considère un agent : Mario, et un environnement composé d'un Goomba (ennemi
 Toute ressemblance avec des personnages ou des situations existantes ou ayant existé (notamment dans l'univers Nintendo) ne saurait être que fortuite.
 
 Voici l'état initial :
+
 ![État initial](img/example/initial_state.png)
 
 L'agent peut effectuer 3 actions distinctes :
