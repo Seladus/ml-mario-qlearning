@@ -42,7 +42,7 @@ L'objectif de l'agent est donc d'atteindre la pièce sans toucher le Goomba.
 
 Dans un premier temps, on peut imaginer que l'agent va effectuer l'action "attendre" et donc ne pas bouger de son état initial, et donc obtenir un gain égal à **0**.
 
-On considère ensuite temps que l'agent va avancer vers la droite :
+On considère ensuite que l'agent va avancer vers la droite :
 
 |   Étape 1                                         |   Étape 2                                        |
 |   :---------------------------------------------: |   :--------------------------------------------: |
