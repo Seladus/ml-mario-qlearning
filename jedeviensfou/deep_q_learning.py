@@ -5,7 +5,6 @@ from tensorflow import keras
 from tensorflow.keras.optimizers import Adam
 from collections import deque
 import gym
-import json
 
 def copy_weights(source, destination):
     destination.set_weights(source.get_weights())
@@ -19,7 +18,6 @@ class ExperienceBuffer:
         self.buffer.append(experience)
     
     def sample(self, sample_size):
-        #return np.random.choice(self.buffer, sample_size)
         return random.sample(self.buffer, sample_size)
 
 class Agent:
@@ -41,7 +39,8 @@ class Agent:
                 model_path="",
                 double_q_learning=False,
                 target_update_frequency=1000,
-                is_epsilon_decaying=False):
+                is_epsilon_decaying=False,
+                is_epsilon_decaying_linear=False):
         self.actions = [i for i in range(nb_actions)]
         self.gamma = gamma
         self.epsilon = epsilon
@@ -58,6 +57,7 @@ class Agent:
         self.step = 0
         self.update_frequency = target_update_frequency
         self.is_epsilon_decaying = is_epsilon_decaying
+        self.is_epsilon_decaying_linear = is_epsilon_decaying_linear
         self.burnin = burnin
 
         if demo_mode:
@@ -71,7 +71,10 @@ class Agent:
 
 
     def decrease_epsilon(self):
-        self.epsilon *= self.epsilon_decay
+        if self.is_epsilon_decaying_linear:
+            self.epsilon -= self.epsilon_decay
+        else:
+            self.epsilon *= self.epsilon_decay
         self.epsilon = max(self.epsilon_end, self.epsilon)
 
     def update_target(self):
