@@ -87,9 +87,9 @@ Ainsi, il existe plusieurs politiques d'exploration/exploitation.
 
 La plus simple et aussi la moins efficace est la politique "greedy". L'agent va simplement choisir l'action maximisant son gain.
 
-Une autre politique bien plus efficace est la politique nommée $\epsilon$-greedy. On fixe une valeur $\epsilon$ qui va représenter la proportion d'exploration. Par exemple, si on fixe $\epsilon=0.9$, on va faire 90% d'exploration et 10% d'exploitation.
+Une autre politique bien plus efficace est la politique nommée $`\epsilon`$-greedy. On fixe une valeur $`\epsilon`$ qui va représenter la proportion d'exploration. Par exemple, si on fixe $`\epsilon=0.9`$, on va faire 90% d'exploration et 10% d'exploitation.
 
-Enfin, une autre politique très utilisée est nommée "decaying $\epsilon$-greedy". Le principe est exactement le même que pour la politique $\epsilon$-greedy, seulement, au bout d'un certain temps, on va faire diminuer petit à petit la valeur de $\epsilon$ pour arriver à un stade où l'on fait majoritairement de l'exploitation. Par exemple, on pourrait imaginer qu'on commence avec $\epsilon=0.9$ et qu'au bout du 100ᵉ épisode on commence à diminuer cette valeur de $0.01$ à chaque épisode jusqu'à ce que $\epsilon=0.1$.
+Enfin, une autre politique très utilisée est nommée "decaying $`\epsilon`$-greedy". Le principe est exactement le même que pour la politique $`\epsilon`$-greedy, seulement, au bout d'un certain temps, on va faire diminuer petit à petit la valeur de $`\epsilon`$ pour arriver à un stade où l'on fait majoritairement de l'exploitation. Par exemple, on pourrait imaginer qu'on commence avec $`\epsilon=0.9`$ et qu'au bout du 100ᵉ épisode on commence à diminuer cette valeur de $`0.01`$ à chaque épisode jusqu'à ce que $`\epsilon=0.1`$.
 
 ### Value function
 
