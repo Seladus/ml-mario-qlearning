@@ -26,13 +26,16 @@ from gym.wrappers import FrameStack
 from wrappers import SkipFrame, GrayScaleObservation, ResizeObservation
 from nes_py.wrappers import JoypadSpace
 from gym_super_mario_bros.actions import RIGHT_ONLY
+import tensorflow as tf
 
 import time
 
 import matplotlib.pyplot as plt
     
 if __name__=="__main__":
-    env = gym_super_mario_bros.make('SuperMarioBros-1-1-v0')
+    gpus = tf.config.list_physical_devices('GPU')
+    tf.config.experimental.set_memory_growth(gpus[0], True)
+    env = gym_super_mario_bros.make('Breakout-v0')
     #env = SkipFrame(env, 4)
     #env = GrayScaleObservation(env)
     #env = ResizeObservation(env, (84, 84))
@@ -40,24 +43,30 @@ if __name__=="__main__":
     env = wrappers_gym.wrapper(env)
 
     episodes = 10000
+    max_steps_in_episode = 10000
+
+    save_rewards_freq = 30
+    path_saves = "saves/models/ddqn_breakout"
+    path_rewards = "saves/models/ddqn_breakout"
 
     agent = Mario(
-        gamma=0.90,
+        gamma=0.99,
         epsilon=1.0, 
         learning_rate=0.00025,
         input_dims=(84, 84, 4),
         nb_actions=env.action_space.n,
-        learning_frequency=3,
+        learning_frequency=4,
         burnin=50000,
         memory_size=50000,
         batch_size=32,
         epsilon_end=0.1,
-        epsilon_decay=0.9999975,
+        epsilon_decay=0.9/300000,
         double_q_learning=True,
-        target_update_frequency=10000,
+        target_update_frequency=2500,
         is_epsilon_decaying=True,
-        save_frequency=100,
-        model_name="marioQ")
+        is_epsilon_decaying_linear=True,
+        save_frequency=50,
+        model_name="breakout-ddqn")
 
     rewards = []
     epsilon_history = []
@@ -67,21 +76,20 @@ if __name__=="__main__":
         score = 0
         count = 0
         state = env.reset()
-        #state = np.transpose(state)
         
-        while not done and count < 5000:
+        while not done and count < max_steps_in_episode:
             action = agent.choose_action(state)
             next_state, reward, done, info = env.step(action)
-            #next_state = np.transpose(next_state)
             score += reward
             agent.store_transition(state, action, reward, next_state, done)
             state = next_state
             agent.learn()
             count += 1
-        #agent.epsilon = max(agent.epsilon*agent.epsilon_decay, agent.epsilon_end)
         
-        agent.save_model(episode, path="saves/models/ddqn_cuda_local")
-
+        agent.save_model(episode, path=path_saves)
+        if episode % save_rewards_freq == 0:
+            np.save(f"{path_rewards}/rewards", np.array(rewards))
+            np.save(f"{path_rewards}/epsilon", np.array(epsilon_history))
         epsilon_history.append(agent.epsilon)
         rewards.append(score)
         average_score = np.mean(rewards[-100:])
@@ -89,10 +97,7 @@ if __name__=="__main__":
     
     end = time.time()
     print(f"Time elapsed : {end - start}")
-    #agent.save_model(episodes)
-    np.save("saves/models/ddqn_cuda_local/rewards", np.array(rewards))
-    np.save("saves/models/ddqn_cuda_local/epsilon", np.array(epsilon_history))
-
-
-    
+    agent.save_model(episode, path=path_saves)
+    np.save(f"{path_rewards}/rewards", np.array(rewards))
+    np.save(f"{path_rewards}/epsilon", np.array(epsilon_history))
 

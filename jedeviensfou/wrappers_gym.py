@@ -288,14 +288,16 @@ def wrap_deepmind(env, timelimit=5000, max_and_skip=True, warp_frame=True, episo
         env = FrameStack(env, 4)
     return env
 
-def wrapper(env):
+def wrapper(env, clip_reward=False):
     """Apply a common set of wrappers for Atari games."""
     #env = EpisodicLifeEnv(env)
     #env = NoopResetEnv(env, noop_max=10)
+    print("Applying wrappers to environnement...")
     env = MaxAndSkipEnv(env, skip=4)
     if 'FIRE' in env.unwrapped.get_action_meanings():
        env = FireResetEnv(env)
     env = WarpFrame(env)
     env = FrameStack(env, 4)
-    env = ClipRewardEnv(env)
+    if clip_reward:
+        env = ClipRewardEnv(env)
     return env
