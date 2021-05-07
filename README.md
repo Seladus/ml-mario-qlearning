@@ -14,6 +14,9 @@ Comme énoncé précédemment, l'apprentissage par renforcement consiste à appr
 
 L'agent est donc plongé dans un environnement et va être amené à prendre des décisions en fonction de cet environnement. À chaque fois que l'agent prend une décision, l'environnement va lui renvoyer un état (le nouvel état de l'environnement après que l'agent ai effectué son action) ainsi qu'une récompense. Cette récompense peut être positive (si l'action est bénéfique), négative (si l'action est néfaste), ou neutre (si l'action n'a pas de répercutions).
 
+Les interractions entre l'agent et l'environnement peuvent être résumées de la sorte :
+![Interractions agent-environnement](img/example/agent_environ_interactions.png)
+
 ### Exemple simple
 
 Voici un exemple très simpliste du principe de l'apprentissage par renforcement.
@@ -92,6 +95,10 @@ Une autre politique bien plus efficace est la politique nommée $`\epsilon`$-gre
 Enfin, une autre politique très utilisée est nommée "decaying $`\epsilon`$-greedy". Le principe est exactement le même que pour la politique $`\epsilon`$-greedy, seulement, au bout d'un certain temps, on va faire diminuer petit à petit la valeur de $`\epsilon`$ pour arriver à un stade où l'on fait majoritairement de l'exploitation. Par exemple, on pourrait imaginer qu'on commence avec $`\epsilon=0.9`$ et qu'au bout du 100ᵉ épisode on commence à diminuer cette valeur de $`0.01`$ à chaque épisode jusqu'à ce que $`\epsilon=0.1`$.
 
 ### Value function
+
+Pour savoir quelle action doit prendre l'agent en fonction de l'état de son environnement, il faut calculer la valeur de ces états. Cette valeur est calculée grâce à la value function.
+
+La définition de cette value function dépend des algorithmes de Reinforcment Learning.
 
 ## L'algorithme Q-Learning
 
