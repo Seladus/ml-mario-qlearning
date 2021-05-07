@@ -116,6 +116,8 @@ Q(s_t, a_t)^{\pi} = \mathbb{E}[r_{t+1} + \gamma r_{t+2} + \gamma ^2 r_{t+3} + ..
 
 Avec :
 
+- $`s_t`$ : l'état de l'environnement à l'instant $`t`$
+- $`a_t`$ : l'action choisie à l'instant $`t`$
 - $`r_{t}`$ : la récompense à l'instant $`t`$
 - $`\gamma \in [0, 1]`$ : un facteur représentant à quel point on va prêter de l'importance aux récompenses sur le long terme (si $`\gamma \approx 1`$ on accorde autant d'importance aux récompenses futures qu'aux récompenses actuelles)
 - $`\pi`$ : veut dire que l'agent choisi l'action optimale
