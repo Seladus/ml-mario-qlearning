@@ -14,6 +14,9 @@ Comme énoncé précédemment, l'apprentissage par renforcement consiste à appr
 
 L'agent est donc plongé dans un environnement et va être amené à prendre des décisions en fonction de cet environnement. À chaque fois que l'agent prend une décision, l'environnement va lui renvoyer un état (le nouvel état de l'environnement après que l'agent ai effectué son action) ainsi qu'une récompense. Cette récompense peut être positive (si l'action est bénéfique), négative (si l'action est néfaste), ou neutre (si l'action n'a pas de répercutions).
 
+Les interractions entre l'agent et l'environnement peuvent être résumées de la sorte :
+![Interractions agent-environnement](img/example/agent_environ_interactions.png)
+
 ### Exemple simple
 
 Voici un exemple très simpliste du principe de l'apprentissage par renforcement.
@@ -93,7 +96,80 @@ Enfin, une autre politique très utilisée est nommée "decaying $`\epsilon`$-gr
 
 ### Value function
 
+Pour savoir quelle action doit prendre l'agent en fonction de l'état de son environnement, il faut calculer la valeur de ces états. Cette valeur est calculée grâce à la value function.
+
+La définition de cette value function dépend des algorithmes de Reinforcment Learning.
+
 ## L'algorithme Q-Learning
+
+L'algorithme du Q-learning est l'un des algorithmes de renforcement les plus utilisé. Son nom vient de la fonction d'évaluation qui lui es associée : la Q-function.
+
+### La Q-function
+
+La Q-function mesure la qualité d'une action dans un état de l'environnement. Elle prend donc en paramètre l'état, mais aussi l'action que l'agent va effectuer.
+
+Elle est définie de la sorte :
+
+```math
+Q(s_t, a_t)^{\pi} = \mathbb{E}[r_{t+1} + \gamma r_{t+2} + \gamma ^2 r_{t+3} + ...|s_t, a_t]
+```
+
+Avec :
+
+- $`s_t`$ : l'état de l'environnement à l'instant $`t`$
+- $`a_t`$ : l'action choisie à l'instant $`t`$
+- $`r_{t}`$ : la récompense à l'instant $`t`$
+- $`\gamma \in [0, 1]`$ : un facteur représentant à quel point on va prêter de l'importance aux récompenses sur le long terme (si $`\gamma \approx 1`$ on accorde autant d'importance aux récompenses futures qu'aux récompenses actuelles)
+- $`\pi`$ : veut dire que l'agent choisi l'action optimale
+
+On utilise l'espérance $`\mathbb{E}`$ afin de faire une moyenne, car l'environnement n'est pas forcément déterministe et peut varier au cours des expériences.
+
+La valeur de la Q-function pour une action et un état donné est donc une moyenne des différentes récompenses possibles futures. 
+
+### Q-function récursive
+
+On peut redéfinir l'équation précédente de manière récursive avec l'équation de Bellman :
+
+```math
+Q(s_t, a_t)^{\pi} = r + \gamma max_{a_{t+1}} Q(s_{t+1}, a_{t+1})^{\pi}
+```
+
+Avec :
+
+- $`r`$ : la récompense obtenue en prenant l'action $`a_t`$ dans l'état $`s_t`$
+- $`\gamma`$ : de même que précédement
+- $`max_{a_{t+1}} Q(s_{t+1}, a_{t+1})`$ : la valeur maximale de la Q-function à l'état $`t+1`$ en fonction de l'action
+
+Cette équation est plus utile car définie de manière récursive.
+
+### Update function
+
+Au cours des époques d'apprentissages, on veut mettre à jour la valeur de cette Q-function. Pour cela, on utilise donc une fonction d'update qui est définie de la sorte :
+
+```math
+Q(s_t, a_t)_{new} = Q(s_t, a_t)_{old} + \alpha [r + \gamma max_{a_{t+1}}Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t)_{old}]
+```
+
+Avec :
+
+- $`max_{a_{t+1}}Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t)_{old}`$ : la différence entre la valeur de la prochaine action (au temps $`t+1`$) et la valeur de l'action actuelle
+- $`\gamma`$ : de même que précédemment
+- $`r`$ : de même que précédemment
+- $`\alpha`$ : le learning rate (afin de pouvoir moyenner cette modification sur plusieurs expériences)
+
+Ainsi, les valeurs de la Q-function sont mise à jour au cours des expériences de manière rétroactive. Une fois qu'un agent a atteint un gain, ce gain va se propager dans les états précédents.
+
+L'algorithme de Q-learning est très pratique et très performant pour résoudre de simples problèmes d'apprentissage par renforcement (sur des jeux simples). En revanche, il n'est pas suffisant pour résoudre des problèmes plus compliqués (comme des jeux vidéos style 8bits).
+
+### Exemple du Q
+
+On reprend l'exemple ci-dessous avec comme actions possibles "aller à droite", "sauter" et "attendre". Et avec des gains de 1 et -1 respectivement pour la pièce et le Goomba. On choisit arbitrairement $`\gamma=0.9`$
+
+![Initial state](img/example/initial_state.png)
+
+On peut alors imaginer, qu'au terme de la phase d'apprentissage, la valeur de l'action "sauter" sera très proche de 1, car elle permet d'obtenir un gain de 1. De même, la valeur de l'action "aller à droite" aura une valeur proche de -1. 
+
+L'action "attendre" en revanche aura une valeur de $`0 + \gamma \times 1 = 0.9`$. En effet, la valeur du gain de l'action "attendre" est de 0. Le gain potentiel maximum de la prochaine action est lui égal à 1 (correspondant à l'action sauter).
 
 ## Le Deep Q-Learning
 
