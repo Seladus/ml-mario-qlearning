@@ -1,10 +1,15 @@
 import numpy as np
 import random
-import tensorflow as tf 
-from tensorflow import keras
-from tensorflow.keras.optimizers import Adam
+#import tensorflow as tf 
+import tensorflow.compat.v1 as tf 
+#from tensorflow import keras
+from tensorflow.compat.v1 import keras
+#from tensorflow.keras.optimizers import Adam
+from tensorflow.compat.v1.keras.optimizers import Adam
 from collections import deque
 import gym
+
+tf.disable_v2_behavior()
 
 def copy_weights(source, destination):
     destination.set_weights(source.get_weights())
@@ -105,7 +110,7 @@ class Agent:
             action = np.random.choice(self.actions)
         else:
             state = np.array([observation])
-            q_values = self.q_eval.predict(state)
+            q_values = self.q_eval.predict_on_batch(state)
             action = np.argmax(q_values)
 
         if self.is_epsilon_decaying and self.step > self.burnin:
@@ -127,16 +132,19 @@ class Agent:
         
         if self.double_q:
             # Predict Q(s,a) and Q(s',a') given the batch of states
-            q_values_state = self.q_eval.predict(states)
-            q_values_next_state = self.q_eval.predict(next_states)
+            #q_values_state = self.q_eval(states).numpy()
+            q_values_state = self.q_eval.predict_on_batch(states)
+            #q_values_next_state = self.q_eval(next_states).numpy()
+            q_values_next_state = self.q_eval.predict_on_batch(next_states)
 
             #Initialize target
             targets = q_values_state
             updates = np.zeros(rewards.shape)
 
             action = np.argmax(q_values_next_state, axis=1) # argmax(Q(S_t+1, a))
-            q_values_next_state_target = self.q_target.predict(next_states)
-            updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[range(self.batch_size), action]
+            q_values_next_state_target = self.q_target.predict_on_batch(next_states)
+            #updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[range(self.batch_size), action]
+            updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[np.arange(0, self.batch_size), action]
             targets[range(self.batch_size), actions] = updates
             self.q_eval.train_on_batch(states, targets)
 

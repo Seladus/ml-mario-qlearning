@@ -1,7 +1,7 @@
 import gym
 from tensorflow.keras.optimizers import Adam
 from tensorflow import keras
-from deep_q_learning import Agent
+from deep_q_learning_tf1_fast import Agent
 
 class Mario(Agent):
     def create_model(self, learning_rate, input_dims, nb_actions):
@@ -11,7 +11,7 @@ class Mario(Agent):
             keras.layers.Conv2D(filters=64, kernel_size=4, strides=2, activation='relu'),
             keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, activation='relu'),
             keras.layers.Flatten(),
-            keras.layers.Dense(256, activation='relu'),
+            keras.layers.Dense(512, activation='relu'),
             keras.layers.Dense(nb_actions, activation='linear')
         ])
 
@@ -56,7 +56,7 @@ if __name__=="__main__":
         input_dims=(84, 84, 4),
         nb_actions=env.action_space.n,
         learning_frequency=4,
-        burnin=50000,
+        burnin=32,
         memory_size=50000,
         batch_size=32,
         epsilon_end=0.1,
