@@ -66,7 +66,8 @@ class Agent:
         self.burnin = burnin
 
         if demo_mode:
-            self.q_eval = tf.keras.models.load_model(model_path)
+            self.q_eval = self.create_model(learning_rate, input_dims, nb_actions)
+            self.q_eval.load_weights(model_path)
             self.epsilon = 0.0
         else:
             self.q_eval = self.create_model(learning_rate, input_dims, nb_actions)
