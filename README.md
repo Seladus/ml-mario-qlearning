@@ -176,3 +176,87 @@ L'action "attendre" en revanche aura une valeur de $`0 + \gamma \times 1 = 0.9`$
 ## Le Double Deep Q-Learning
 
 ## Présentation de nos expérimentations
+
+### Présentation de l'environnement
+
+L'environnement utilisé est disponible à cette adresse : [gym-super-mario-bros](https://pypi.org/project/gym-super-mario-bros/)
+
+Cette environnement implémente l'interface `Environnement` de la bibliothèque [gym](https://gym.openai.com/). Pour faire progresser l'environnement la fonction `step` est utilisée (on lui envoie en paramètre une action à réaliser). Cette fonction renvoie ainsi :
+
+- **state** : le nouvel état du jeu, ici c'est une image du jeu en RGB.
+- **reward** : les récompenses obtenues suite à l'action effectuée.
+- **done** : booléen indiquant si le nouvel état est terminal ou non (si le niveau est terminé ou bien si mario a été tué).
+- **infos** : un dictionnaire contenant des informations sur le déroulement du jeu telles que,
+  - **coins** : les pièces collectées par l'agent.
+  - **flag_get** : booléen indiquant si le drapeau ou la hache ont été atteint (si l'agent a complété le niveau).
+  - **life** : le nombre de vies restantes de mario.
+  - **score** : le score actuel de l'agent.
+  - **stage** : l'identifiant du niveau.
+  - **status** : le status de mario (si il est petit, grand ou en fleur de feu).
+  - **time** : le temps ingame.
+  - **world** : l'identifiant du monde.
+  - **x_pos** : la position en x de mario sur le niveau.
+  - **y_pos** : la position en y de mario sur le niveau.
+
+#### La politique de récompense
+
+Une politique de récompense par défaut est définie par l'environnement :
+
+##### La vélocité
+
+$`v`$ : la différence entre la position en x de mario à l'état initial et à l'état suivant selon la relation $`\rightarrow`$ $`v = x_{t+1} - x_{t-1}`$.
+
+Ainsi lorsque mario :
+
+- va vers la droite (vers la fin du niveau) : $v > 0$
+- va vers la gauche : $v < 0$
+- ne bouge pas : $v = 0$
+
+Cette composante de la fonction de récompense a pour objectif de stimuler le déplacement de l'agent vers la fin du niveau.
+
+##### La composante temporelle
+
+$`c`$ : la différence entre le temps ingame à l'état initial et à l'état suivant selon la relation $`\rightarrow`$ $`c = c_{t+1} - c_{t-1}`$.
+
+Cette composante de la fonction de récompense a pour objectif d'imposer une contrainte de temps à l'agent pour pouvoir finir le niveau. Ainsi, l'agent est encouragé à finir le niveau le plus rapidement possible.
+
+##### La peine de mort
+
+$`d`$ : la pénalité appliquée à l'agent s'il meurt.
+
+Ainsi lorsque mario :
+
+- est vivant : $`d = 0`$
+- meurt : $`d = -15`$
+
+##### Total
+
+L'expression finale de la fonction de récompense est la suivante :
+
+$$`r = v + c + d`$$
+
+### Architecture du modèle
+
+Notre objectif est de pouvoir calculer l'espérance des récompense futures à partir d'un état du jeu.
+
+Comme préconisé dans [insérer nom d'article](todo) nous fournirons à notre modèle 4 (nombre pouvant varier) images en nuances de gris de taille $84 \times 84$ empilées (images allant des temps $t-3$ à $t$).
+
+Afin de pouvoir analyser ces images nous utilisons $3$ couches de convolution et nous complétons l'architecture avec $1$ couche dense.
+
+Finalement nous ressortons un vecteur indiquant l'espérance des récompenses futures pour chaque action possible.
+
+![model](img/example/model.png)
+
+### Deep Q Learning
+
+### Double Deep Q Learning
+
+Nous avons ensuite amélioré notre modèle en ajoutant un réseau "target" pour que l'apprentissage soit plus stable.
+
+![training](img/example/training_average_morio.png)
+
+#### Nouvelle politique de récompense
+
+![training](img/example/training_average_morio_custom_rewards.png)
+
+![training](img/example/density_hist_custom_rewards.png)
