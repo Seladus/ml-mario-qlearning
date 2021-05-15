@@ -37,9 +37,9 @@ Le réseau est donc conçu pour être au plus proche de l'être humain.
 Ce projet a donc pour but d'utiliser de l'apprentissage par renforcement. Pour ce faire, les chercheurs ont connecté un algorithme d'apprentissage par renforcement à un réseau neuronal profond qui opère directement sur les images RVB en entrée et qui traite les données d'entraînement par la méthode du gradient stochastique.
 
 La méthode présentée dans cet article est basé sur l'architecture [TD-Gammon](https://en.wikipedia.org/wiki/TD-Gammon) qui est connue pour être très performante au jeu de Gammon.
-Cependant, l'approche est légèrement différente. En effet, il est utilisé le principe d'*experience replay* (qui est très utilisé dans le Deep Q-Learning). Ainsi, plutôt que d'utiliser les $N$ dernières actions pour prédire la prochaine action, on stocke les expériences de l'agent dans un ensemble de données (que l'on va noter $D$) dans lequel on tire au hasard les $N$ échantillons qui vont servir à prendre la décision.
+Cependant, l'approche est légèrement différente. En effet, il est utilisé le principe d'*experience replay* (qui est très utilisé dans le Deep Q-Learning). Ainsi, plutôt que d'utiliser les $`N`$ dernières actions pour prédire la prochaine action, on stocke les expériences de l'agent dans un ensemble de données (que l'on va noter $`D`$) dans lequel on tire au hasard les $`N`$ échantillons qui vont servir à prendre la décision.
 
-L'agent suit une politique $\epsilon$-greedy, c’est-à-dire qu'il a une probabilité de $1-\epsilon$ de choisir la meilleure action (celle que maximise le gain) et une probabilité $\epsilon$ de choisir une action aléatoire parmi les actions possibles. Une action aléatoire est considérée comme une action *d'exploration* tandis qu'une action qui vise à maximiser le gain est une action *d'exploitation*.
+L'agent suit une politique $`\epsilon`$-greedy, c’est-à-dire qu'il a une probabilité de $`1-\epsilon`$ de choisir la meilleure action (celle que maximise le gain) et une probabilité $`\epsilon`$ de choisir une action aléatoire parmi les actions possibles. Une action aléatoire est considérée comme une action *d'exploration* tandis qu'une action qui vise à maximiser le gain est une action *d'exploitation*.
 
 ### Avantages
 
@@ -69,7 +69,7 @@ Premièrement, il peut être difficile dans certains cas de fixer les gains. Cer
 
 Dans un second temps, ces algorithmes peuvent être longs à apprendre. En effet, puisqu'ils "apprennent de leurs erreurs", il faut leur laisser le temps nécessaire pour commettre les-dites erreurs. De plus, ces algorithmes sont très gourmands en données. C'est pour cela qu'ils sont très utilisés sur les jeux vidéos, car on peut relancer une partie indéfiniment et ainsi avoir un nombre conséquent de données d'apprentissage.
 
-Troisièmement, le choix des hyper paramètres peut être compliqué. En effet, il faut par exemple bien choisir la valeur de $\epsilon$ pour la politique $\epsilon$-greedy, sinon l'algorithme va soit trop explorer, soit trop exploiter.
+Troisièmement, le choix des hyper paramètres peut être compliqué. En effet, il faut par exemple bien choisir la valeur de $`\epsilon`$ pour la politique $`\epsilon`$-greedy, sinon l'algorithme va soit trop explorer, soit trop exploiter.
 
 Enfin, étant donné que la distribution des données change au fur et à mesure de l'apprentissage, on ne peut pas envisager de coupler le renforcement par une autre méthode de Deep Learning, car ces méthodes supposent que la distribution des données est fixe.
 
