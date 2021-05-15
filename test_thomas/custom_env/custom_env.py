@@ -26,6 +26,10 @@ class CustomEnv(SuperMarioBrosEnv):
         parent_info["test"] = self._test
         return parent_info
 
+    def reset(self):
+        _ = super().reset()
+        return self._custom_state(
+
 def register_custom_env():
 
     ENV_NAME = "CustomEnv-v0"

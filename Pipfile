@@ -11,6 +11,7 @@ tensorboard = "*"
 numpy = "*"
 scipy = "*"
 tf-agents = "*"
+array2gif = "*"
 
 [dev-packages]
 pylint = "*"
