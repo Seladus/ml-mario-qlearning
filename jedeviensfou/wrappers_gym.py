@@ -288,6 +288,24 @@ def wrap_deepmind(env, timelimit=5000, max_and_skip=True, warp_frame=True, episo
         env = FrameStack(env, 4)
     return env
 
+class CustomReward(gym.Wrapper):
+    def __init__(self, env):
+        gym.Wrapper.__init__(self, env)
+        self._current_score = 0
+
+    def step(self, action):
+        state, reward, done, info = self.env.step(action)
+        #reward += (info['score'] - self._current_score) / 40.0
+        self._current_score = info['score']
+        if done:
+            if info['flag_get']:
+                reward += 400.0
+            else:
+                reward -= 50.0
+        return state, reward / 10.0, done, info
+
+from gym.wrappers.monitoring.video_recorder import VideoRecorder
+
 def wrapper(env, clip_reward=False):
     """Apply a common set of wrappers for Atari games."""
     #env = EpisodicLifeEnv(env)
@@ -298,6 +316,8 @@ def wrapper(env, clip_reward=False):
        env = FireResetEnv(env)
     env = WarpFrame(env)
     env = FrameStack(env, 4)
+    env = ScaledFloatFrame(env)
     if clip_reward:
         env = ClipRewardEnv(env)
+    env=CustomReward(env)
     return env
