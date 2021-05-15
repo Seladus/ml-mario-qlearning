@@ -4,14 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-gym-super-mario-bros = "*"
+gym-super-mario-bros = "==7.3.2"
 matplotlib = "*"
-tensorflow = "*"
-tensorboard = "*"
-numpy = "*"
-scipy = "*"
-tf-agents = "*"
+tensorflow = "==2.3.1"
+numpy = "==1.18.5"
 array2gif = "*"
+opencv-python = "==4.4.0.44"
+keras = "==2.4.3"
 
 [dev-packages]
 pylint = "*"
