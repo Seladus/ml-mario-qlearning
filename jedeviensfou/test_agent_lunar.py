@@ -27,6 +27,9 @@ if __name__=="__main__":
     frames = []
     frame_counter = 0
     frame_save = 10
+
+    savefig = False
+    pause_at_end = True
         
     while not done:
         action = agent.choose_action(state)
@@ -40,7 +43,12 @@ if __name__=="__main__":
         frame_counter += 1
         
     print(f"score : {score:.2f}")
+    if pause_at_end:
+        input()
+
     env.close()
-    write_gif(np.array(frames), "lunar.gif", fps=10)
+
+    if savefig:
+        write_gif(np.array(frames), "lunar.gif", fps=10)
 
     

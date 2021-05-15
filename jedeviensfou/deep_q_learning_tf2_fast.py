@@ -20,16 +20,6 @@ class ExperienceBuffer:
     def sample(self, sample_size):
         return random.sample(self.buffer, sample_size)
 
-def build_dqn(learning_rate, input_dims, nb_actions, dim1, dim2):
-    model = keras.Sequential([
-        keras.layers.Input(input_dims),
-        keras.layers.Dense(dim1, activation='relu'),
-        keras.layers.Dense(dim2, activation='relu'),
-        keras.layers.Dense(nb_actions, activation='linear')
-    ])
-    model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mse')
-    return model
-
 class Agent:
     def __init__(self, 
                 learning_rate,
@@ -38,6 +28,7 @@ class Agent:
                 epsilon,
                 batch_size,
                 input_dims,
+                burnin,
                 learning_frequency=4,
                 epsilon_decay=0.99,
                 epsilon_end=0.01,
@@ -47,7 +38,9 @@ class Agent:
                 demo_mode=False,
                 model_path="",
                 double_q_learning=False,
-                target_update_frequency=1000):
+                target_update_frequency=1000,
+                is_epsilon_decaying=False,
+                is_epsilon_decaying_linear=False):
         self.actions = [i for i in range(nb_actions)]
         self.gamma = gamma
         self.epsilon = epsilon
@@ -63,6 +56,9 @@ class Agent:
         self.double_q = double_q_learning
         self.step = 0
         self.update_frequency = target_update_frequency
+        self.is_epsilon_decaying = is_epsilon_decaying
+        self.is_epsilon_decaying_linear = is_epsilon_decaying_linear
+        self.burnin = burnin
 
         if demo_mode:
             self.q_eval = tf.keras.models.load_model(model_path)
@@ -74,8 +70,17 @@ class Agent:
                 self.update_target()
 
 
+    def decrease_epsilon(self):
+        if self.is_epsilon_decaying_linear:
+            self.epsilon -= self.epsilon_decay
+        else:
+            self.epsilon *= self.epsilon_decay
+        self.epsilon = max(self.epsilon_end, self.epsilon)
+
     def update_target(self):
-        copy_weights(self.q_eval, self.q_target)
+        if self.double_q:
+            print("[INFO] updating target network...")
+            copy_weights(self.q_eval, self.q_target)
 
     def create_model(self, learning_rate, input_dims, nb_actions):
         model = keras.Sequential([
@@ -85,7 +90,7 @@ class Agent:
             keras.layers.Dense(32, activation='relu'),
             keras.layers.Dense(nb_actions, activation='linear')
         ])
-        model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mse')
+        model.compile(optimizer=Adam(learning_rate=learning_rate), loss='huber_loss')
         return model
     
     def save_model(self, episode_count, path="saves/models"):
@@ -100,12 +105,18 @@ class Agent:
             action = np.random.choice(self.actions)
         else:
             state = np.array([observation])
-            q_values = self.q_eval.predict(state)
+            #q_values = self.q_eval.predict_on_batch(state)
+            q_values = self.q_eval(state).numpy()
             action = np.argmax(q_values)
+
+        if self.is_epsilon_decaying and self.step > self.burnin:
+            self.decrease_epsilon()
+        
+        self.step += 1
         return action
     
     def learn(self):
-        if len(self.memory.buffer) < self.batch_size:
+        if len(self.memory.buffer) < self.burnin:
             return
         if self.step % self.update_frequency == 0:
             self.update_target()
@@ -117,21 +128,22 @@ class Agent:
         
         if self.double_q:
             # Predict Q(s,a) and Q(s',a') given the batch of states
-            q_values_state = self.q_eval.predict(states)
-            q_values_next_state = self.q_eval.predict(next_states)
+            q_values_state = self.q_eval(states).numpy()
+            #q_values_state = self.q_eval.predict_on_batch(states)
+            q_values_next_state = self.q_eval(next_states).numpy()
+            #q_values_next_state = self.q_eval.predict_on_batch(next_states)
 
             #Initialize target
             targets = q_values_state
             updates = np.zeros(rewards.shape)
 
             action = np.argmax(q_values_next_state, axis=1) # argmax(Q(S_t+1, a))
-            q_values_next_state_target = self.q_target.predict(next_states)
-            updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[range(self.batch_size), action]
+            #q_values_next_state_target = self.q_target.predict_on_batch(next_states)
+            q_values_next_state_target = self.q_target(next_states).numpy()
+            #updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[range(self.batch_size), action]
+            updates = rewards + (1 - dones) * self.gamma * q_values_next_state_target[np.arange(0, self.batch_size), action]
             targets[range(self.batch_size), actions] = updates
             self.q_eval.train_on_batch(states, targets)
-
-
-
         else:
             q_next = self.q_eval.predict(next_states).max(axis=1)
             targets = self.q_eval.predict(states)
@@ -143,7 +155,7 @@ if __name__=="__main__":
     tf.compat.v1.disable_eager_execution()
     env = gym.make('LunarLander-v2')
     learning_rate = 0.001
-    episodes = 300
+    episodes = 800
     agent = Agent(gamma=0.99, 
                 epsilon=1.0, 
                 learning_rate=learning_rate,
@@ -152,10 +164,11 @@ if __name__=="__main__":
                 learning_frequency=1,
                 memory_size=10000000,
                 batch_size=64,
+                burnin=64,
                 epsilon_end=0.01,
-                epsilon_decay=0.99,
+                epsilon_decay=0.995,
                 double_q_learning=True,
-                target_update_frequency=200)
+                target_update_frequency=1000)
     rewards = []
     epsilon_history = []
 
