@@ -11,6 +11,7 @@ numpy = "==1.18.5"
 array2gif = "*"
 opencv-python = "==4.4.0.44"
 keras = "==2.4.3"
+gym = "==0.18.0"
 
 [dev-packages]
 pylint = "*"

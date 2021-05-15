@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "604240d1264466c10b5464cb67ee5cd1ca07c1d57caf7cebd591a222dc4983e2"
+            "sha256": "60f554fcd675f55e813679d72ea74fbbe762e6a15f9f77b694f92f9eece47cff"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -176,7 +176,7 @@
             "hashes": [
                 "sha256:a0dcd25c1373f3938f4cb4565f74f434fba6faefb73a42d09c9dddd0c08af53e"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==0.18.0"
         },
         "gym-super-mario-bros": {
