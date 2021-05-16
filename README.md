@@ -399,7 +399,9 @@ Lors de l'apprentissage nous avons extrait différents modèles et généré des
 
 - Episode 0 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/fjK0IJ_RD6U?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/fjK0IJ_RD6U?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" frameborder="0" allowfullscreen="true"> </iframe>
+</figure>
 
 - Episode 1000 :
 
