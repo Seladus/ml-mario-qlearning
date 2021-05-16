@@ -399,33 +399,27 @@ Lors de l'apprentissage nous avons extrait différents modèles et généré des
 
 - Episode 0 :
 
-<!-- blank line -->
-<figure class="video_container">
-  <video controls="true" allowfullscreen="true" poster="">
-    <source src="videos/1-1_premieres_experimentations/0.mp4" type="video/mp4">
-  </video>
-</figure>
-<!-- blank line -->
+<iframe width="255" height="240" src="https://www.youtube.com/embed/fjK0IJ_RD6U?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 1000 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/t7ZCidr5hcE?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 5000 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/aT9j1hY_2mQ?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 9000 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/lZvYbAlW2B8?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 16000 (signes de progression) :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/LCjE3oSIiAs?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Résultat exceptionnel (Episode 14000 : finis le niveau) :
-
-
+  
+<iframe width="255" height="240" src="https://www.youtube.com/embed/sI7XALhmjj0?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Nous pouvons constater que mario va de plus en plus loin mais semble ne pas chercher à vraiment finir le niveau. L'expérience est concluante puisque nous constater que l'agent a appris mais ce n'est pas encore complètement satisfaisant.
 
@@ -457,24 +451,23 @@ Lors de l'apprentissage nous avons extrait différents modèles et généré des
 
 - Episode 0 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/-81IiYTiDQU?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 1000 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/b9w6iTA6INA?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 5000 :
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/POF1hBUtM3o?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 13000 (Finis le niveau mais encore hésitant):
 
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/AAjgy_D7RLo?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - Episode 20000 (Perfect stairs) :
 
-
-
+<iframe width="255" height="240" src="https://www.youtube.com/embed/xler4tfLw0M?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Nous pouvons en conclure que notre agent a bien réussi à apprendre comment terminer le niveau 1-1 de super mario bros.
 
@@ -483,6 +476,8 @@ Nous pouvons en conclure que notre agent a bien réussi à apprendre comment ter
 #### Passage sur le niveau 1-3
 
 ### Critique sur le travail réalisé
+
+### Perspectives d'amélioration
 
 ### Graphiques annexes
 
