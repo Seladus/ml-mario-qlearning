@@ -163,6 +163,19 @@ Ainsi, les valeurs de la Q-function sont mise à jour au cours des expériences 
 
 L'algorithme de Q-learning est très pratique et très performant pour résoudre de simples problèmes d'apprentissage par renforcement (sur des jeux simples). En revanche, il n'est pas suffisant pour résoudre des problèmes plus compliqués (comme des jeux vidéos style 8-bits).
 
+### Le Q en pratique
+
+En pratique la Q-function se base sur un tableau que nous nommons Q-table. Dans ce tableau sont stockés les différentes transitions d'états sous la forme de tuples :
+
+```math
+\text{transition} = (s_t, a, r, s_{t+1})
+```
+
+- $`s_t`$ l'état initial
+- $`a`$ l'action effectuée
+- $`r`$ la récompense obtenue
+- $`s_{t+1}`$ l'état final
+
 ### Exemple du Q
 
 On reprend l'exemple ci-dessous avec comme actions possibles "aller à droite", "sauter" et "attendre". Et avec des gains de 1 et -1 respectivement pour la pièce et le Goombass. On choisit arbitrairement $`\gamma=0.9`$
@@ -252,7 +265,7 @@ Le Double Deep Q-Learning s'inspire d'une méthode appellé le Double Q-Learning
 Les target seront donc de la forme :
 
 ```math
-y_t^{DoubleQ} = R_{t+1} + \gamma Q\left(S_{t+1}, \max_a Q\left(S_{t+1}, a; \theta_t\right); \theta_t' \right)
+y_t^{DoubleQ} = r_{t+1} + \gamma Q\left(S_{t+1}, \max_a Q\left(S_{t+1}, a; \theta_t\right); \theta_t' \right)
 ```
 
 On retrouve bien ici deux Q-functions :
@@ -300,6 +313,8 @@ Cette environnement implémente l'interface `Environnement` de la bibliothèque 
   - **x_pos** : la position en x de mario sur le niveau.
   - **y_pos** : la position en y de mario sur le niveau.
 
+En plus de cela, l'environnement propose différents sets de mouvements. Ces sets de mouvements permettent de limiter le panel d'actions possiblement réalisables par l'agent pour intéragir avec l'environnement. Cela permet notamment d'obtenir un certain contrôle sur la complexité de l'environnement. Lors de nos expérimentations nous utiliserons principalement le set de mouvement : `RIGHT_ONLY` qui limite les mouvements de l'agent à un déplacement vers la droite.
+
 #### La politique de récompense
 
 Une politique de récompense par défaut est définie par l'environnement :
@@ -343,7 +358,7 @@ r = v + c + d
 
 Notre objectif est de pouvoir calculer l'espérance des récompense futures à partir d'un état du jeu.
 
-Comme préconisé dans [insérer nom d'article](todo) nous fournirons à notre modèle 4 (nombre pouvant varier) images en nuances de gris de taille $`84 \times 84`$ empilées (images allant des temps $`t-3`$ à $`t`$).
+Comme préconisé dans [Playing Atari with Deep Reinforcement Learning](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) nous fournirons à notre modèle 4 (nombre pouvant varier) images en nuances de gris de taille $`84 \times 84`$ empilées (images allant des temps $`t-3`$ à $`t`$).
 
 Afin de pouvoir analyser ces images nous utilisons $3$ couches de convolution et nous complétons l'architecture avec $1$ couche dense.
 
@@ -355,26 +370,117 @@ Finalement nous ressortons un vecteur indiquant l'espérance des récompenses fu
 
 Nous utiliserons les wrappers recommandés par *deepmind* pour apprendre sur des jeux atari :
 
-- MaxAndSkip
-- WarpFrame
-- FrameStack
-- ScaledFloatFrame
+- MaxAndSkip : Saute un certain nombre de frames (permet à l'agent d'explorer plus de situations différentes).
+- WarpFrame : Redimensionne l'image du jeu en taille $`84 \times 84`$ et la passe en noir et blanc.
+- FrameStack : Modifie la forme de l'état ressorti par la fonction step de l'environnement, cet état sera constitué de 4 images consécutives.
+- ScaledFloatFrame : Normalise les nuances de gris en valeur située entre 0 et 1.
 
 ### Deep Q Learning
 
 ### Double Deep Q Learning
 
-Ici nous utiliserons en plus le wrapper : `ClipReward`.
+#### Premières expérimentations
+
+Dans un premier temps l'objectif de nos première expérimentations est de réussir à aller le plus loin possible dans le premier niveau de super mario bros (niveau **1-1**).
+
+Ici nous utiliserons en plus le wrapper : `ClipReward` qui permet de borner les récompenses unitaires données par l'environnement entre -1 et 1.
+
+Nous utiliserons une politique epsilon-greedy
+
 La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
 
 ![training](img/example/training_average_morio_max_ep_99999775.png)
 
+Nous pouvons constater que au fur et à mesure de la diminution du coefficient d'exploration $`\epsilon`$
+
+Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-clipreward).
+
+Lors de l'apprentissage nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
+
+- Episode 0 :
+
+<!-- blank line -->
+<figure class="video_container">
+  <video controls="true" allowfullscreen="true" poster="">
+    <source src="videos/1-1_premieres_experimentations/0.mp4" type="video/mp4">
+  </video>
+</figure>
+<!-- blank line -->
+
+- Episode 1000 :
+
+
+
+- Episode 5000 :
+
+
+
+- Episode 9000 :
+
+
+
+- Episode 16000 (signes de progression) :
+
+
+
+- Résultat exceptionnel (Episode 14000 : finis le niveau) :
+
+
+
+Nous pouvons constater que mario va de plus en plus loin mais semble ne pas chercher à vraiment finir le niveau. L'expérience est concluante puisque nous constater que l'agent a appris mais ce n'est pas encore complètement satisfaisant.
+
+Nous avons fait plus d'expérience en variant les différents hyper-paramètres, le nombre d'épisode
+
 #### Nouvelle politique de récompense
 
 Ici nous utiliserons en plus le wrapper : `CustomReward` à la place de `ClipReward`.
-La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
+
+Ce changement de wrapper modifie quelque peu la politique d'attribution des rewards de l'environnement. Ainsi nous reprenons la même politique qu'auparavant (sans le `ClipReward`) en ajoutant une récompense plus importante à l'agent lorsque ce dernier touche le drapeau. La fonction d'attribution devient :
+
+```math
+r_\text{new} = (r_\text{old} + r_\text{drapeau})/10
+```
+
+avec $`r_\text{drapeau} = 400`$ si le niveau est terminé (drapeau ou hache atteinte) et $`r_\text{drapeau} = -15`$ sinon.
+
+La récompense totale obtenue par l'agent en cas de victoire (en un temps raisonnable) sur le niveau 1-1 est environ égale à 300.
 
 ![training](img/example/training_average_morio_custom_rewards.png)
+
+Nous pouvons constater que la récompense moyenne sur 100 épisodes consécutif augment graduellement au fur et à mesure que le coefficient d'exploration $`epsilon`$ diminue. C'est un signe que notre agent parvient au cours de l'entraînement à se familiariser avec l'environnement pour aller de plus en plus loin.
+
+Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-customreward).
+
+Nous constatons qu'au fur et à mesure de l'apprentissage la proportion des épisodes ayant une récompense totale suppérieure à 300 (ce qui correspond à un niveau terminé avec un temps correct) augmente et vient s'imposer par rapport aux autres tranches possibles. En fin d'entraînement (lorsque le coefficient d'exploration $`\epsilon`$ est suffisamment bas pour considérer que l'agent est complètement libre de ses mouvements), les épisodes de reward suppérieures à 300 sont bien majoritaires.
+
+Lors de l'apprentissage nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
+
+- Episode 0 :
+
+
+
+- Episode 1000 :
+
+
+
+- Episode 5000 :
+
+
+
+- Episode 13000 (Finis le niveau mais encore hésitant):
+
+
+
+- Episode 20000 (Perfect stairs) :
+
+
+
+
+Nous pouvons en conclure que notre agent a bien réussi à apprendre comment terminer le niveau 1-1 de super mario bros.
+
+#### Passage sur le niveau 1-4
+
+#### Passage sur le niveau 1-3
 
 ### Critique sur le travail réalisé
 
