@@ -29,7 +29,7 @@ class QLearning:
     def start(self):
         rewards = []
         epsilons = []
-        for episode in range(self._n_episodes):
+        for episode in range(self._n_episodes + 1):
             done = False
             score = 0
             count = 0
