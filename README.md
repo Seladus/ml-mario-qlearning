@@ -351,16 +351,45 @@ Finalement nous ressortons un vecteur indiquant l'espérance des récompenses fu
 
 ![model](img/example/model.png)
 
+### Preprocessing
+
+Nous utiliserons les wrappers recommandés par *deepmind* pour apprendre sur des jeux atari :
+
+- MaxAndSkip
+- WarpFrame
+- FrameStack
+- ScaledFloatFrame
+
 ### Deep Q Learning
 
 ### Double Deep Q Learning
 
-Nous avons ensuite amélioré notre modèle en ajoutant un réseau "target" pour que l'apprentissage soit plus stable.
+Ici nous utiliserons en plus le wrapper : `ClipReward`.
+La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
 
-![training](img/example/training_average_morio.png)
+![training](img/example/training_average_morio_max_ep_99999775.png)
 
 #### Nouvelle politique de récompense
 
+Ici nous utiliserons en plus le wrapper : `CustomReward` à la place de `ClipReward`.
+La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
+
 ![training](img/example/training_average_morio_custom_rewards.png)
+
+### Critique sur le travail réalisé
+
+### Graphiques annexes
+
+#### Histogrammes de densité des récompenses
+
+##### Avec ClipReward
+
+**Epsilon** = 0.99999775
+
+![training](img/example/density_hist_max_ep_99999775.png)
+
+##### Avec CustomReward
+
+**Epsilon** = 0.999999
 
 ![training](img/example/density_hist_custom_rewards.png)
