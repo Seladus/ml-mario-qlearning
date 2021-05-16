@@ -395,33 +395,33 @@ Nous pouvons constater que au fur et à mesure de la diminution du coefficient d
 
 Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-clipreward).
 
-Lors de l'apprentissage nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
+Lors de l'apprentissage (environ 20 heures sur le criann) nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
 
 - Episode 0 :
 
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/fjK0IJ_RD6U?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" frameborder="0" allowfullscreen="true"> </iframe>
+![video](videos/1-1_premieres_experimentations/0.mp4)
+
 </figure>
 
 - Episode 1000 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/t7ZCidr5hcE?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_premieres_experimentations/1000.mp4)
 
 - Episode 5000 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/aT9j1hY_2mQ?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_premieres_experimentations/5000.mp4)
 
 - Episode 9000 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/lZvYbAlW2B8?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_premieres_experimentations/9000.mp4)
 
 - Episode 16000 (signes de progression) :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/LCjE3oSIiAs?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_premieres_experimentations/16000.mp4)
 
 - Résultat exceptionnel (Episode 14000 : finis le niveau) :
   
-<iframe width="255" height="240" src="https://www.youtube.com/embed/sI7XALhmjj0?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_premieres_experimentations/14000.mp4)
 
 Nous pouvons constater que mario va de plus en plus loin mais semble ne pas chercher à vraiment finir le niveau. L'expérience est concluante puisque nous constater que l'agent a appris mais ce n'est pas encore complètement satisfaisant.
 
@@ -443,43 +443,57 @@ La récompense totale obtenue par l'agent en cas de victoire (en un temps raison
 
 ![training](img/example/training_average_morio_custom_rewards.png)
 
-Nous pouvons constater que la récompense moyenne sur 100 épisodes consécutif augment graduellement au fur et à mesure que le coefficient d'exploration $`epsilon`$ diminue. C'est un signe que notre agent parvient au cours de l'entraînement à se familiariser avec l'environnement pour aller de plus en plus loin.
+Nous pouvons constater que la récompense moyenne sur 100 épisodes consécutif augment graduellement au fur et à mesure que le coefficient d'exploration $`\epsilon`$ diminue. C'est un signe que notre agent parvient au cours de l'entraînement à se familiariser avec l'environnement pour aller de plus en plus loin.
 
 Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-customreward).
 
 Nous constatons qu'au fur et à mesure de l'apprentissage la proportion des épisodes ayant une récompense totale suppérieure à 300 (ce qui correspond à un niveau terminé avec un temps correct) augmente et vient s'imposer par rapport aux autres tranches possibles. En fin d'entraînement (lorsque le coefficient d'exploration $`\epsilon`$ est suffisamment bas pour considérer que l'agent est complètement libre de ses mouvements), les épisodes de reward suppérieures à 300 sont bien majoritaires.
 
-Lors de l'apprentissage nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
+Lors de l'apprentissage (environ 40 heures sur le criann) nous avons extrait différents modèles et généré des vidéos pour montrer ce qu'ils étaient capable de faire :
 
 - Episode 0 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/-81IiYTiDQU?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_nouvelle_politique/0.mp4)
 
 - Episode 1000 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/b9w6iTA6INA?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_nouvelle_politique/1000.mp4)
 
 - Episode 5000 :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/POF1hBUtM3o?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_nouvelle_politique/5000.mp4)
 
 - Episode 13000 (Finis le niveau mais encore hésitant):
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/AAjgy_D7RLo?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_nouvelle_politique/13000.mp4)
 
 - Episode 20000 (Perfect stairs) :
 
-<iframe width="255" height="240" src="https://www.youtube.com/embed/xler4tfLw0M?list=PL8R-TuzSbr8sxDAOeqtGVz5zqyWDumNr1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![video](videos/1-1_nouvelle_politique/20000.mp4)
+
+Nous pouvons constater clairement la progression de l'agent lors du processus d'apprentissage. Le fait de donner plus d'importance (de récompenses) au fait de finir le niveau semble avoir permis à l'agent d'évoluer vers le comportement souhaité.
 
 Nous pouvons en conclure que notre agent a bien réussi à apprendre comment terminer le niveau 1-1 de super mario bros.
 
 #### Passage sur le niveau 1-4
 
+Nous avons également testé notre algorithme d'apprentissage (environ 30 heures sur le criann) avec un set de mouvement plus compliqué (`SIMPLE_MOVEMENT`) sur un niveau différent : le *1-4*.
+
+- Episode 40000 :
+
+![video](videos/1-4/40000.mp4)
+
 #### Passage sur le niveau 1-3
 
 ### Critique sur le travail réalisé
 
+A cause du temps d'apprentissage extrêmement long nous n'avons pu réaliser que peu d'expériences. Ainsi, notre stratégie de test a été un peu archaïque. En effet, après avoir obtenu des résultats plutôt décevants suite à nos premières expérimentations nous avons testé des modifications d'hyper-paramètres au hasard sans grande rigueur (il aurait fallu changer un paramètre à la fois au lieu de plusieurs parfois pour vérifier leur effet sur l'apprentissage).
+
 ### Perspectives d'amélioration
+
+Il reste encore beaucoup de possibilités à effectuer. Nous pourrions par exemple, au lieu de lancer l'apprentissage sur un seul niveau, le lancer sur tout les niveaux du premier monde à la suite. De plus, pour améliorer les performance nous pourrions modifier la structure du modèle ou modifier les hyper-paramètres en établissant une stratégie plus rigoureuse.
+
+Enfin, nous avons testé un modèle simple sur un petit nombre de valeurs issues de la RAM mais les résultats n'ont pas été concluant. Nous pourrions imaginer à l'avenir d'utiliser plus de valeurs issues de la RAM et un modèle plus complexe afin d'évaluer si cela mènerais à de meilleurs résultats qu'avec une entrée sours forme d'images.
 
 ### Graphiques annexes
 
