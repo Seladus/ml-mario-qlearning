@@ -14,11 +14,11 @@ Les algorithmes de renforcement peuvent donc devenir très performants sur des j
 
 Comme énoncé précédemment, l'apprentissage par renforcement consiste à apprendre à un agent à se comporter dans un environnement. Il sera récompensé s’il fait une bonne action et pénalisé dans le cas contraire. Ce mode de fonctionnement est très proche de ce que nous faisons dans la vie de tous les jours. Les données d'entraînement proviennent donc de l'environnement. Cet environnement peut être réel ou simulé. Par exemple, dans le cas d'AlphaGo, l'environnement d'entraînement a totalement été recréé virtuellement. Un exemple commun d'apprentissage dans un environnement réel est celui des voitures autonomes (un exemple très parlant d'apprentissage par renforcement dans un environnement réel pour apprendre à conduire à une voiture est visible [ici](https://www.youtube.com/watch?v=eRwTbRtnT1I)). Les environnements virtuels sont en général plus pratiques, car l'apprentissage y est plus aisé et plus rapide, mais ils ne reproduisent pas forcément tous aspects du monde réel. Enfin, le but de l'apprentissage par renforcement n'est pas de minimiser une fonction d'erreur comme dans les méthodes de Machine Learning classiques, mais plutôt de maximiser le nombre de récompenses actuelles et futures.
 
-L'agent est donc plongé dans un environnement et va être amené à prendre des décisions en fonction de cet environnement. À chaque fois que l'agent prend une décision, l'environnement va lui renvoyer un état (le nouvel état de l'environnement après que l'agent ai effectué son action) ainsi qu'une récompense. Cette récompense peut être positive (si l'action est bénéfique), négative (si l'action est néfaste), ou neutre (si l'action n'a pas de répercutions).
+L'agent est donc plongé dans un environnement et va être amené à prendre des décisions en fonction de cet environnement. À chaque fois que l'agent prend une décision, l'environnement va lui renvoyer un état (le nouvel état de l'environnement après que l'agent ai effectué son action) ainsi qu'une récompense. Cette récompense peut être positive (si l'action est bénéfique), négative (si l'action est néfaste), ou neutre (si l'action n'a pas de répercussions).
 
 Les interractions entre l'agent et l'environnement peuvent être résumées de la sorte :
 
-![Interractions agent-environnement](img/example/agent_environ_interactions.png)
+![Interractions agent-environnement](ressources/img/example/agent_environ_interactions.png)
 
 ### Exemple simple
 
@@ -30,19 +30,19 @@ Toute ressemblance avec des personnages ou des situations existantes ou ayant ex
 
 Voici l'état initial :
 
-![État initial](img/example/initial_state.png)
+![État initial](ressources/img/example/initial_state.png)
 
 L'agent peut effectuer 3 actions distinctes :
 
-- attendre
-- avancer vers la droite
-- sauter
+- attendre.
+- avancer vers la droite.
+- sauter.
 
 On définit les gains comme suit :
 
-- -1 si Maro touche le Goomba
-- 1 si Maro atteint la pièce
-- 0 sinon
+- -1 si Maro touche le Goomba.
+- 1 si Maro atteint la pièce.
+- 0 sinon.
 
 L'objectif de l'agent est donc d'atteindre la pièce sans toucher le Goombass.
 
@@ -52,7 +52,7 @@ On considère ensuite que l'agent va avancer vers la droite :
 
 |   Étape 1                                         |   Étape 2                                        |
 |   :---------------------------------------------: |   :--------------------------------------------: |
-|   ![Mario running 1](img/example/running_1.png)   |   ![Mario running 2](img/example/running_2.png)  |
+|   ![Mario running 1](ressources/img/example/running_1.png)   |   ![Mario running 2](ressources/img/example/running_2.png)  |
 
 Maro va alors rencontrer le Goombass, et perdre une vie. L'environnement va donc lui renvoyer une récompense de **-1**.
 
@@ -60,7 +60,7 @@ Enfin, après avoir essayé les deux actions précédentes et n'ayant pas eu de 
 
 |   Étape 1                                         |   Étape 2                                        |
 |   :---------------------------------------------: |   :--------------------------------------------: |
-|   ![Mario jumping 1](img/example/jumping_1.png)   |   ![Mario jumping 2](img/example/jumping_2.png)  |
+|   ![Mario jumping 1](ressources/img/example/jumping_1.png)   |   ![Mario jumping 2](ressources/img/example/jumping_2.png)  |
 
 Cette fois-ci, Mario a réussi à atteindre la pièce, il reçoit donc une récompense égale à **1**.
 
@@ -78,7 +78,7 @@ Cependant, il faut réussir à trouver un juste milieu entre l'explortion et l'e
 
 Pour simplifier les choses, reprenons l'exemple de Maro.
 
-![Exploitation vs exploration 1](img/example/exploit_vs_explor_1.png)
+![Exploitation vs exploration 1](ressources/img/example/exploit_vs_explor_1.png)
 
 Cette fois-ci, Maro peut obtenir deux gains positifs : un gain de 1 s’il va à gauche et un gain de 3 s’il va à droite.
 
@@ -86,13 +86,13 @@ Si on fixe un nombre d'actions d'exploration petit, on pourrait imaginer que Mar
 
 |   Solution sous-optimale      |   Solution optimale                                        |
 | :--------------------------------------------------: | :--------------------------------------------: |
-| ![Sous-optimal](img/example/exploit_vs_explor_2.png) | ![Optimal](img/example/exploit_vs_explor_3.png) |
+| ![Sous-optimal](ressources/img/example/exploit_vs_explor_2.png) | ![Optimal](ressources/img/example/exploit_vs_explor_3.png) |
 
 Ainsi, il existe plusieurs politiques d'exploration/exploitation.
 
 La plus simple et aussi la moins efficace est la politique "greedy". L'agent va simplement choisir l'action maximisant son gain.
 
-Une autre politique bien plus efficace est la politique nommée $`\epsilon`$-greedy. On fixe une valeur $`\epsilon`$ qui va représenter la proportion d'exploration. Par exemple, si on fixe $`\epsilon=0.9`$, on va faire 90% d'exploration et 10% d'exploitation.
+Une autre politique bien plus efficace est la politique nommée $`\epsilon`$-greedy. On fixe une valeur $`\epsilon`$ qui va représenter la proportion d'exploration. Par exemple, si on fixe $`\epsilon=0.9`$, on va faire 90 % d'exploration et 10 % d'exploitation.
 
 Enfin, une autre politique très utilisée est nommée "decaying $`\epsilon`$-greedy". Le principe est exactement le même que pour la politique $`\epsilon`$-greedy, seulement, au bout d'un certain temps, on va faire diminuer petit à petit la valeur de $`\epsilon`$ pour arriver à un stade où l'on fait majoritairement de l'exploitation. Par exemple, on pourrait imaginer qu'on commence avec $`\epsilon=0.9`$ et qu'au bout du 100ᵉ épisode on commence à diminuer cette valeur de $`0.01`$ à chaque épisode jusqu'à ce que $`\epsilon=0.1`$.
 
@@ -180,7 +180,7 @@ En pratique la Q-function se base sur un tableau que nous nommons Q-table. Dans 
 
 On reprend l'exemple ci-dessous avec comme actions possibles "aller à droite", "sauter" et "attendre". Et avec des gains de 1 et -1 respectivement pour la pièce et le Goombass. On choisit arbitrairement $`\gamma=0.9`$
 
-![Initial state](img/example/initial_state.png)
+![Initial state](ressources/img/example/initial_state.png)
 
 On peut alors imaginer, qu'au terme de la phase d'apprentissage, la valeur de l'action "sauter" sera très proche de 1, car elle permet d'obtenir un gain de 1. De même, la valeur de l'action "aller à droite" aura une valeur proche de -1.
 
@@ -188,27 +188,27 @@ L'action "attendre" en revanche aura une valeur de $`0 + \gamma \times 1 = 0.9`$
 
 ### Limitations du Q-Learning
 
-La mise en oeuvre du Q-learning nécessite de construire un tableau associant les différentes transitions possibles ainsi que l'espérance des récompenses associées. En effet on estime la Q-function en actualisant le tableau à chaque itération à l'aide de l'équation de _Bellman_.
+La mise en œuvre du Q-learning nécessite de construire un tableau associant les différentes transitions possibles ainsi que l'espérance des récompenses associées. En effet, on estime la Q-function en actualisant le tableau à chaque itération à l'aide de l'équation de _Bellman_.
 
-Cependant lorsque l'environnement devient trop complexe les nombre de transitions possibles augmente considérablement. Ainsi construire un tableau devient contre-productif puisqu'il serait trop lourd à stocker en mémoire.
+Cependant, lorsque l'environnement devient trop complexe les nombre de transitions possibles augmente considérablement. Ainsi construire un tableau devient contre-productif puisqu'il serait trop lourd à stocker en mémoire.
 
-C'est pour cela qu'une amélioration de la méthode a été proposée pour pouvoir s'appliquer à des environnement plus complexes.
+C'est pour cela qu'une amélioration de la méthode a été proposée pour pouvoir s'appliquer à des environnements plus complexes.
 
 ## Le Deep Q-Learning
 
-Dans l'[article suivant](https://arxiv.org/pdf/1312.5602.pdf) une méthode de deep learning est proposée pour pouvoir pallier au principal problème du Q-learning classique cité précédemment pour pouvoir faire jouer un agent à des jeux videos (environnement complexes).
+Dans l'[article suivant](https://arxiv.org/pdf/1312.5602.pdf) une méthode de Deep Learning est proposée pour régler le problème du Q-learning classique. Ainsi, le Deep Q-Learning permet d'entraîner un agent sur des environnements sur des complexes, comme des jeux vidéos.
 
 ### Principe général
 
-L'idée présentée dans cette article se base sur la combinaison du principe du Q-learning avec la puissance des réseaux de neurones dans le but de faire jouer un agent à des jeux Atari.
+L'idée présentée dans cette article se base sur la combinaison du principe du Q-learning avec la puissance des réseaux de neurones dans le but d'entraîner un agent a jouer à des jeux Atari.
 
 Ainsi, l'objectif ici est de pouvoir approximer la Q-function avec un réseau de neurone.
 
 ### Problème à résoudre
 
-En entrée du réseau nous avons l'état actuel du jeu et nous souhaitons qu'en sortie il nous soit renvoyé l'espérance des récompenses qu'il est possible d'obtenir par action que l'agent peut effectuer dans l'environnement. En somme nous voulons estimer le retour de la Q-function.
+En entrée du réseau, nous avons l'état actuel du jeu. Nous souhaitons obtenir l'espérance des récompenses en sortie pour chaque action qu'il est possible de réaliser. En somme, nous voulons d'approcher la Q-function.
 
-L'objectif de l'agent est donc d'intéragir avec un environnement (ici l'émulateur de jeu) en sélectionnant des actions pour maximiser les récompenses qu'il peut obtenir. Nous définissons $`Q^*(s_{t}, a_{t})`$ la valeur maximale des récompenses futures espérées en suivant n'importe quelle stratégie (en choisissant n'importe quelle action) après avoir pris connaissance de l'état de l'environnement $`s`$ pour y appliquer une action $`a`$. Ainsi :
+L'objectif de l'agent est donc d'interagir avec un environnement (ici l'émulateur de jeu) en sélectionnant des actions pour maximiser les récompenses qu'il peut obtenir. Nous définissons $`Q^*(s_{t}, a_{t})`$ la valeur maximale des récompenses futures espérées en suivant n'importe quelle stratégie après avoir pris connaissance de l'état de l'environnement $`s`$. L'agent choisit ensuite une action $`a`$. Ainsi :
 
 ```math
 Q^*(s_{t}, a_{t}) = \max_\pi \mathbb{E}[R_t | s_t = s, a_t = a, \pi]
@@ -216,25 +216,25 @@ Q^*(s_{t}, a_{t}) = \max_\pi \mathbb{E}[R_t | s_t = s, a_t = a, \pi]
 
 avec $`R_t`$ les récompenses futures.
 
-Ainsi, nous nous basons sur l'équation de _Bellman_ pour construire notre objectif. Si la valeur optimale $`Q^*(s_{t+1}, a_{t+1})`$ à l'état $`s_{t+1}`$ (état suivant) est connue pour toutes les actions $`a_{t+1}`$ possibles alors la stratégie optimale est de sélectionner l'action $`a_{t+1}`$ qui maximise la valeur des récompenses espérées : $`r+\gamma Q^*(s_{t+1}, a_{t+1})`$ avec $`\gamma`$ le coefficient d'actualisation des récompenses futures.
+Ainsi, nous nous basons sur l'équation de _Bellman_ pour construire notre objectif. Si la valeur optimale $`Q^*(s_{t+1}, a_{t+1})`$ à l'état suivant $`s_{t+1}`$ est connue pour toutes les actions $`a_{t+1}`$ possibles alors la stratégie optimale est de sélectionner l'action $`a_{t+1}`$ qui maximise la valeur des récompenses espérées : $`r+\gamma Q^*(s_{t+1}, a_{t+1})`$ avec $`\gamma`$ le coefficient d'actualisation des récompenses futures.
 
 ```math
 Q^*(s_{t}, a_{t}) = r + \gamma \max_{a_{t+1}} Q^*(s_{t+1}, a_{t+1})
 ```
 
-Nous utilisons donc un réseau de neurone que nous appelerons Q-network pour servir d'estimateur de cette fonction. La fonction de perte est définie de la manière suivante :
+Nous utilisons donc un réseau de neurone que nous appellerons Q-network pour servir d'estimateur de cette fonction. La fonction de perte est définie de la manière suivante :
 
 ```math
 L_i (\theta_i) = (y_i - Q(s, a; \theta_i))^2
 ```
 
-avec $`y_i`$ la *target* telle que :
+avec $`y_i`$ la _target_ telle que :
 
 ```math
 y_i = r + \gamma \max_{a_{t+1}} Q^*(s_{t+1}, a_{t+1}; \theta_{i-1})
 ```
 
-et notre *feature*:
+et notre _feature_:
 
 ```math
 x_i = Q(s, a; \theta_i)
@@ -244,25 +244,25 @@ avec $`\theta`$ faisant référence aux poids du réseau de neurones.
 
 ### Algorithme
 
-L'algorithme présenté par *deepmind* illustrant la procédure d'apprentissage de l'agent est le suivant :
+L'algorithme présenté par *DeepMind* illustrant la procédure d'apprentissage de l'agent est le suivant :
 
-![algorithme](img/example/algorithme_deep_q_learning.png)
+![algorithme](ressources/img/example/algorithme_deep_q_learning.png)
 
-Ici, le principe d'**experience replay** est utilisé pour constituer une base de données de transitions. Lors de l'apprentissage à chaque pas effectué par l'environnement la transition entre l'état actuel et l'état suivant est stockée dans un buffer et à chaque pas d'apprentissage le modèle va apprendre sur un batch de transitions échantillonné depuis ce buffer. Cela permet d'éviter les dépendances fortes entre les données successives fournies au modèle pour apprendre.
+Ici, le principe d'**experience replay** est utilisé pour constituer une base de données de transitions. Lors de l'apprentissage à chaque pas effectué par l'environnement la transition entre l'état actuel et l'état suivant est stockée dans un buffer. À chaque pas d'apprentissage le modèle va apprendre sur un batch de transitions échantillonné depuis ce buffer. Cela permet d'éviter les corrélations entre les données successives fournies au modèle durant l'apprentissage.
 
 ### Limitations
 
-Le principal problème du Deep Q-learning réside dans sa procédure d'apprentisage très instable. En effet, le même modèle d'estimation de la Q-function est utilisé pour, à la fois générer les *features* et les *targets* utilisées par le modèle pour apprendre. Cela signifie que la fonction de perte change à chaque itération. De plus, avec cette méthode le réseau a tendance à surestimer les valeurs estimées (à cause notamment de l'utilisation de l'opérateur **max**) ce qui peut mener l'agent à s'enfermer plus facilement dans des comportements optimaux localement.
+Le principal problème du Deep Q-learning réside dans sa procédure d'apprentissage très instable. En effet, le même modèle d'estimation de la Q-function est utilisé pour générer les _features_ et les _targets_. Cela signifie que la fonction de perte change à chaque itération. De plus, avec cette méthode le réseau a tendance à surestimer les valeurs (à cause notamment de l'utilisation de l'opérateur **max**) ce qui peut mener l'agent à s'enfermer plus facilement dans des comportements sous optimaux.
 
 ## Le Double Deep Q-Learning
 
-Afin de pallier aux problèmes engendrés par le deep Q-learning, on peut utiliser une amélioration de cette méthode : le Double Deep Q-learning. Son principe est détaillé dans l'article [Deep Reinforcement Learning with Double Q-learning](https://arxiv.org/pdf/1509.06461.pdf).
+Afin de pallier le problème engendré par le deep Q-learning, on peut utiliser une amélioration de cette méthode : le Double Deep Q-learning. Son principe est détaillé dans l'article [Deep Reinforcement Learning with Double Q-learning](https://arxiv.org/pdf/1509.06461.pdf).
 
 ### Le Double Q-Learning
 
-Le Double Deep Q-Learning s'inspire d'une méthode appellé le Double Q-Learning. Le principe du Double Q-learning consiste simplement à utiliser deux Q-functions. Ainsi, à chaque épisode, les poids d'une des deux fonction (choisie de manière aléatoire) vont être mis à jour, créant deux jeux de poids notés $`\theta`$ et $`\theta'`$.
+Le Double Deep Q-Learning s'inspire d'une méthode appelé le Double Q-Learning. Le principe du Double Q-Learning consiste simplement à utiliser deux Q-functions. Ainsi, à chaque épisode, les poids d'une des deux fonctions (choisie de manière aléatoire) vont être mis à jour, créant deux jeux de poids notés $`\theta`$ et $`\theta'`$.
 
-Les target seront donc de la forme :
+Les _targets_ seront donc de la forme :
 
 ```math
 y_t^{DoubleQ} = r_{t+1} + \gamma Q\left(S_{t+1}, \max_a Q\left(S_{t+1}, a; \theta_t\right); \theta_t' \right)
@@ -270,20 +270,18 @@ y_t^{DoubleQ} = r_{t+1} + \gamma Q\left(S_{t+1}, \max_a Q\left(S_{t+1}, a; \thet
 
 On retrouve bien ici deux Q-functions :
 
-- Une première fonction (celle associé au modèle $`\theta`$) permet de sélectionner l'action optimale pour un état donnée. On dit que c'est la fonction _online_.
+- Une première fonction (celle associé au modèle $`\theta`$) permet de sélectionner l'action optimale pour un état donné. On dit que c'est la fonction _online_.
 - Une seconde fonction (celle associé au modèle $`\theta'`$) permet de calculer les récompenses attendues par l'utilisation de cette action pour le même état. On dit que c'est la fonction _target_.
 
 Cette séparation permet d'obtenir une évaluation plus stable, en limitant la surévaluation des récompenses.
-
-Cette méthode n'avait été essayé que pour des Q-functions et pas des Q-network.
 
 ### Application du Double Q-Learning pour le Double Deep Q-Learning
 
 Le Double Deep Q-Learning utilise les avantages du Deep Q-Learning, tout en rendant l'apprentissage plus stable en utilisant le Double Q-Learning.
 
-Le principe est ici le même que pour le Double Q-Learning. Au lieu d'utiliser un seul Q-network, on utilisera deux Q-network : un _online_ pour le choix de la meilleure action et un _target_ pour le calcul des valeurs de récompenses.
+Le principe est ici le même que pour le Double Q-Learning. Au lieu d'utiliser un seul Q-network, on utilisera deux Q-networks : un _online_ pour le choix de la meilleure action et un _target_ pour le calcul des valeurs de récompenses.
 
-La principale différence avec le Double Q-Learning, est l'apprentissage des deux réseaux. Là ou dans le Double Q-Learning, les deux fonctions jouaient un rôle symétrique et interchangeable, le Double Deep Q-Learning sépare l'apprentissage des deux réseaux :
+La principale différence avec le Double Q-Learning, est l'apprentissage des deux réseaux. Là où dans le Double Q-Learning, les deux fonctions jouaient un rôle symétrique et interchangeable, le Double Deep Q-Learning sépare l'apprentissage des deux réseaux :
 
 - Le réseau _online_ est mis à jour à chaque itération.
 - Le réseau _target_ est une copie du réseau _online_, toutes les `$\tau$` itérations. Ce réseau correspond donc à une version plus ancienne du réseau _online_.
@@ -296,11 +294,11 @@ Cette séparation permet d'améliorer la stabilité de l'apprentissage du Q-netw
 
 L'environnement utilisé est disponible à cette adresse : [gym-super-mario-bros](https://pypi.org/project/gym-super-mario-bros/)
 
-Cette environnement implémente l'interface `Environnement` de la bibliothèque [gym](https://gym.openai.com/). Pour faire progresser l'environnement la fonction `step` est utilisée (on lui envoie en paramètre une action à réaliser). Cette fonction renvoie ainsi :
+Cet environnement implémente l'interface `Environnement` de la bibliothèque [gym](https://gym.openai.com/). Pour faire progresser l'environnement la fonction `step` est utilisée (on lui envoie en paramètre une action à réaliser). Cette fonction renvoie ainsi :
 
-- **state** : le nouvel état du jeu, ici c'est une image du jeu en RGB.
+- **state** : le nouvel état du jeu, ici, c'est une image du jeu en RGB.
 - **reward** : les récompenses obtenues suite à l'action effectuée.
-- **done** : booléen indiquant si le nouvel état est terminal ou non (si le niveau est terminé ou bien si mario a été tué).
+- **done** : vrai si le niveau est terminé, faux sinon mario est mort.
 - **infos** : un dictionnaire contenant des informations sur le déroulement du jeu telles que,
   - **coins** : les pièces collectées par l'agent.
   - **flag_get** : booléen indiquant si le drapeau ou la hache ont été atteint (si l'agent a complété le niveau).
@@ -308,12 +306,12 @@ Cette environnement implémente l'interface `Environnement` de la bibliothèque 
   - **score** : le score actuel de l'agent.
   - **stage** : l'identifiant du niveau.
   - **status** : le status de mario (si il est petit, grand ou en fleur de feu).
-  - **time** : le temps ingame.
+  - **time** : le temps en jeu.
   - **world** : l'identifiant du monde.
   - **x_pos** : la position en x de mario sur le niveau.
   - **y_pos** : la position en y de mario sur le niveau.
 
-En plus de cela, l'environnement propose différents sets de mouvements. Ces sets de mouvements permettent de limiter le panel d'actions possiblement réalisables par l'agent pour intéragir avec l'environnement. Cela permet notamment d'obtenir un certain contrôle sur la complexité de l'environnement. Lors de nos expérimentations nous utiliserons principalement le set de mouvement : `RIGHT_ONLY` qui limite les mouvements de l'agent à un déplacement vers la droite.
+En plus de cela, l'environnement propose différents ensembles de mouvements. Ces ensembles de mouvements permettent de limiter le choix d'actions réalisables par l'agent. Cela permet notamment d'obtenir un certain contrôle sur la complexité de l'environnement. Lors de nos expérimentations, nous utiliserons principalement l'ensemble de mouvement : `RIGHT_ONLY` qui limite les mouvements de l'agent à un déplacement vers la droite.
 
 #### La politique de récompense
 
@@ -356,24 +354,24 @@ r = v + c + d
 
 ### Architecture du modèle
 
-Notre objectif est de pouvoir calculer l'espérance des récompense futures à partir d'un état du jeu.
+Notre objectif est de pouvoir calculer l'espérance des récompenses futures à partir d'un état du jeu.
 
-Comme préconisé dans [Playing Atari with Deep Reinforcement Learning](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) nous fournirons à notre modèle 4 (nombre pouvant varier) images en nuances de gris de taille $`84 \times 84`$ empilées (images allant des temps $`t-3`$ à $`t`$).
+Comme préconisé dans [Playing Atari with Deep Reinforcement Learning](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) nous fournirons à notre modèle 4 images en nuances de gris de taille $`84 \times 84`$ empilées (images allant des temps $`t-3`$ à $`t`$).
 
-Afin de pouvoir analyser ces images nous utilisons $3$ couches de convolution et nous complétons l'architecture avec $1$ couche dense.
+Afin de pouvoir analyser ces images, nous utilisons 3 couches de convolution et nous complétons l'architecture avec 1 couche dense.
 
 Finalement nous ressortons un vecteur indiquant l'espérance des récompenses futures pour chaque action possible.
 
-![model](img/example/model.png)
+![model](ressources/img/example/model.png)
 
 ### Preprocessing
 
-Nous utiliserons les wrappers recommandés par *deepmind* pour apprendre sur des jeux atari :
+Nous utiliserons les wrappers recommandés par *DeepMind* pour apprendre sur des jeux Atari :
 
-- MaxAndSkip : Saute un certain nombre de frames (permet à l'agent d'explorer plus de situations différentes).
-- WarpFrame : Redimensionne l'image du jeu en taille $`84 \times 84`$ et la passe en noir et blanc.
-- FrameStack : Modifie la forme de l'état ressorti par la fonction step de l'environnement, cet état sera constitué de 4 images consécutives.
-- ScaledFloatFrame : Normalise les nuances de gris en valeur située entre 0 et 1.
+- MaxAndSkip : Saute un certain nombre d'images et réalise un max-pooling sur celles-ci. Cela permet donc d'explorer plus de situations différentes.
+- WarpFrame : Redimensionne l'image du jeu en taille $`84 \times 84`$ et la passe en nuance de gris.
+- FrameStack : Modifie la forme de l'état ressorti par la fonction step de l'environnement. Cet état sera constitué de 4 images consécutives.
+- ScaledFloatFrame : Réduit les nuances de gris entre 0 et 1.
 
 ### Deep Q Learning
 
@@ -381,57 +379,45 @@ Nous utiliserons les wrappers recommandés par *deepmind* pour apprendre sur des
 
 #### Premières expérimentations
 
-Dans un premier temps l'objectif de nos première expérimentations est de réussir à aller le plus loin possible dans le premier niveau de super mario bros (niveau **1-1**).
+Dans un premier temps l'objectif de nos premières expérimentations est de réussir à aller le plus loin possible dans le premier niveau de _Super Mario Bros._ (niveau **1-1**).
 
-Ici nous utiliserons en plus le wrapper : `ClipReward` qui permet de borner les récompenses unitaires données par l'environnement entre -1 et 1.
-
-Nous utiliserons une politique epsilon-greedy
+Ici nous utiliserons en plus le wrapper : `ClipReward` qui permet de borner les récompenses unitaires données par l'environnement entre -1 et 1. Nous utiliserons une politique $`\epsilon`$-greedy.
 
 La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
 
-![training](img/example/training_average_morio_max_ep_99999775.png)
+![training](ressources/img/example/training_average_morio_max_ep_99999775.png)
 
-Nous pouvons constater que au fur et à mesure de la diminution du coefficient d'exploration $`\epsilon`$
+Nous pouvons constater qu'au fur et à mesure de la diminution du coefficient d'exploration $`\epsilon`$ la récompense moyenne augmente. Les histogrammes de densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-clipreward).
 
-Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-clipreward).
-
-Lors de l'apprentissage (environ 20 heures sur le criann) nous avons extrait différents modèles et généré des vidéos de ce qu'ils étaient capable de faire :
+Lors de l'apprentissage (environ 20 heures sur les machines du CRIANN) nous avons extrait différents modèles. On propose ici les vidéos des parties jouées par ces modèles :
 
 - Episode 0 :
-
-![video](videos/1-1_premieres_experimentations/0.mp4)
-
-</figure>
+![premiere politique - episode 0](ressources/videos/1-1_premieres_experimentations/0.mp4)
 
 - Episode 1000 :
-
-![video](videos/1-1_premieres_experimentations/1000.mp4)
+![premiere politique - episode 1000](ressources/videos/1-1_premieres_experimentations/1000.mp4)
 
 - Episode 5000 :
-
-![video](videos/1-1_premieres_experimentations/5000.mp4)
+![premiere politique - episode 5000](ressources/videos/1-1_premieres_experimentations/5000.mp4)
 
 - Episode 9000 :
-
-![video](videos/1-1_premieres_experimentations/9000.mp4)
+![premiere politique - episode 9000](ressources/videos/1-1_premieres_experimentations/9000.mp4)
 
 - Episode 16000 (signes de progression) :
-
-![video](videos/1-1_premieres_experimentations/16000.mp4)
+![premiere politique - episode 16000](ressources/videos/1-1_premieres_experimentations/16000.mp4)
 
 - Résultat exceptionnel (Episode 14000 : finis le niveau) :
-  
-![video](videos/1-1_premieres_experimentations/14000.mp4)
+![premiere politique - episode 14000](ressources/videos/1-1_premieres_experimentations/14000.mp4)
 
-Nous pouvons constater que mario va de plus en plus loin mais semble ne pas chercher à vraiment finir le niveau. L'expérience est concluante puisque nous constater que l'agent a appris mais ce n'est pas encore complètement satisfaisant.
+Nous pouvons constater que Mario va de plus en plus loin dans le niveau, mais l'agent semble ne pas chercher à finir le niveau. L'expérience est concluante puisque nous pouvons constater que l'agent a appris. Cet apprentissage n'est complètement satisfaisant.
 
-Nous avons fait plus d'expérience en variant les différents hyper-paramètres, le nombre d'épisode
+Nous avons donc essayer de faire varier les hyper-paramètres.
 
 #### Nouvelle politique de récompense
 
 Ici nous utiliserons en plus le wrapper : `CustomReward` à la place de `ClipReward`.
 
-Ce changement de wrapper modifie quelque peu la politique d'attribution des rewards de l'environnement. Ainsi nous reprenons la même politique qu'auparavant (sans le `ClipReward`) en ajoutant une récompense plus importante à l'agent lorsque ce dernier touche le drapeau. La fonction d'attribution devient :
+Ce changement de wrapper modifie la manière de calculer les récompenses. Ainsi nous reprenons la même politique qu'auparavant (sans le `ClipReward`) en ajoutant une récompense plus importante à l'agent lorsque ce dernier touche le drapeau. La fonction d'attribution devient :
 
 ```math
 r_\text{new} = (r_\text{old} + r_\text{drapeau})/10
@@ -439,61 +425,64 @@ r_\text{new} = (r_\text{old} + r_\text{drapeau})/10
 
 avec $`r_\text{drapeau} = 400`$ si le niveau est terminé (drapeau ou hache atteinte) et $`r_\text{drapeau} = -15`$ sinon.
 
-La récompense totale obtenue par l'agent en cas de victoire (en un temps raisonnable) sur le niveau 1-1 est environ égale à 300.
+La récompense totale obtenue par l'agent en cas de victoire sur le niveau 1-1 est environ égale à 300.
 
-![training](img/example/training_average_morio_custom_rewards.png)
+![training](ressources/img/example/training_average_morio_custom_rewards.png)
 
-Nous pouvons constater que la récompense moyenne sur 100 épisodes consécutif augment graduellement au fur et à mesure que le coefficient d'exploration $`\epsilon`$ diminue. C'est un signe que notre agent parvient au cours de l'entraînement à se familiariser avec l'environnement pour aller de plus en plus loin.
+Nous pouvons constater que la récompense moyenne sur 100 épisodes consécutifs augmente graduellement au fur et à mesure que le coefficient d'exploration $`\epsilon`$ diminue. C'est un signe que notre agent parvient à se familiariser avec l'environnement pour aller de plus en plus loin.
 
-Les histogrammes des densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-customreward).
+Les histogrammes de densité de récompense en fonction des épisodes sont visibles en [annexe](#avec-customreward).
 
-Nous constatons qu'au fur et à mesure de l'apprentissage la proportion des épisodes ayant une récompense totale suppérieure à 300 (ce qui correspond à un niveau terminé avec un temps correct) augmente et vient s'imposer par rapport aux autres tranches possibles. En fin d'entraînement (lorsque le coefficient d'exploration $`\epsilon`$ est suffisamment bas pour considérer que l'agent est complètement libre de ses mouvements), les épisodes de reward suppérieures à 300 sont bien majoritaires.
+Nous constatons qu'au fur et à mesure de l'apprentissage la proportion des épisodes ayant une récompense totale supérieure à 300 augmente et vient s'imposer par rapport aux autres tranches possibles. En fin d'entraînement (lorsque le coefficient d'exploration $`\epsilon`$ est suffisamment bas pour considérer que l'agent est complètement libre de ses mouvements), les épisodes ayant une récompense totale supérieure à 300 sont majoritaires.
 
-Lors de l'apprentissage (environ 40 heures sur le criann) nous avons extrait différents modèles et généré des vidéos pour montrer ce qu'ils étaient capable de faire :
+Lors de l'apprentissage (environ 40 heures sur les machines du CRIANN) nous avons extrait différents modèles et généré des vidéos pour illuster les performances de l'agent :
 
 - Episode 0 :
-
-![video](videos/1-1_nouvelle_politique/0.mp4)
+![episode 0](ressources/videos/1-1_nouvelle_politique/0.mp4)
 
 - Episode 1000 :
-
-![video](videos/1-1_nouvelle_politique/1000.mp4)
+![episode 1000](ressources/videos/1-1_nouvelle_politique/1000.mp4)
 
 - Episode 5000 :
+![episode 5000](ressources/videos/1-1_nouvelle_politique/5000.mp4)
 
-![video](videos/1-1_nouvelle_politique/5000.mp4)
-
-- Episode 13000 (Finis le niveau mais encore hésitant):
-
-![video](videos/1-1_nouvelle_politique/13000.mp4)
+- Episode 13000 (Finis le niveau, mais encore hésitant) :
+![episode 13000](ressources/videos/1-1_nouvelle_politique/13000.mp4)
 
 - Episode 20000 (Perfect stairs) :
+![episode 20000](ressources/videos/1-1_nouvelle_politique/20000.mp4)
 
-![video](videos/1-1_nouvelle_politique/20000.mp4)
+Nous pouvons constater la progression de l'agent lors du processus d'apprentissage. Le fait de donner plus d'importance au fait de finir le niveau semble avoir permis à l'agent d'évoluer vers le comportement souhaité.
 
-Nous pouvons constater clairement la progression de l'agent lors du processus d'apprentissage. Le fait de donner plus d'importance (de récompenses) au fait de finir le niveau semble avoir permis à l'agent d'évoluer vers le comportement souhaité.
-
-Nous pouvons en conclure que notre agent a bien réussi à apprendre comment terminer le niveau 1-1 de super mario bros.
+Nous pouvons en conclure que notre agent a bien réussi à apprendre comment terminer le niveau 1-1 de _Super Mario Bros._.
 
 #### Passage sur le niveau 1-4
 
-Nous avons également testé notre algorithme d'apprentissage (environ 30 heures sur le criann) avec un set de mouvement plus compliqué (`SIMPLE_MOVEMENT`) sur un niveau différent : le *1-4*.
+Nous avons également testé notre algorithme d'apprentissage (environ 30 heures sur les machines du CRIANN) avec un ensemble de mouvements plus compliqué (`SIMPLE_MOVEMENT`) sur un niveau différent : le _1-4_.
 
 - Episode 40000 :
-
-![video](videos/1-4/40000.mp4)
+![episode 40000](ressources/videos/1-4/40000.mp4)
 
 #### Passage sur le niveau 1-3
 
+On réalise la même expérience sur le niveau _1-3_.
+
+- Episode 49800 :
+![episode 49800](ressources/videos/1-3/49800.mp4)
+
+On peut noter que ce niveau est bien plus difficile que ceux testées précédemment.
+
 ### Critique sur le travail réalisé
 
-A cause du temps d'apprentissage extrêmement long nous n'avons pu réaliser que peu d'expériences. Ainsi, notre stratégie de test a été un peu archaïque. En effet, après avoir obtenu des résultats plutôt décevants suite à nos premières expérimentations nous avons testé des modifications d'hyper-paramètres au hasard sans grande rigueur (il aurait fallu changer un paramètre à la fois au lieu de plusieurs parfois pour vérifier leur effet sur l'apprentissage).
+À cause du temps d'apprentissage plutôt long nous n'avons pu réaliser autant d'expériences que nous aurions souhaités. Ainsi, notre progression était plutôt lente : il a fallu tester de nombreuses variations d'hyper-paramètres avant d'aboutir à un résultat satisfaisant.
 
 ### Perspectives d'amélioration
 
-Il reste encore beaucoup de possibilités à effectuer. Nous pourrions par exemple, au lieu de lancer l'apprentissage sur un seul niveau, le lancer sur tout les niveaux du premier monde à la suite. De plus, pour améliorer les performance nous pourrions modifier la structure du modèle ou modifier les hyper-paramètres en établissant une stratégie plus rigoureuse.
+Il reste encore beaucoup de possibilités à explorer. Nous pourrions par exemple lancer l'apprentissage sur tous les niveaux du premier monde à la suite. Ainsi, un seul agent pourrait réussir à synthétiser tous les concepts dans _Super Mario Bros._.
 
-Enfin, nous avons testé un modèle simple sur un petit nombre de valeurs issues de la RAM mais les résultats n'ont pas été concluant. Nous pourrions imaginer à l'avenir d'utiliser plus de valeurs issues de la RAM et un modèle plus complexe afin d'évaluer si cela mènerais à de meilleurs résultats qu'avec une entrée sours forme d'images.
+De plus, nous pourrions essayer d'autres structure pour le Q-network. On pense par exemple à utiliser des réseaux récurrents. On pourrait alors améliorer les performances du modèle ou accélerer l'apprentissage.
+
+Enfin, nous avons testé un très simple se basant sur quelques de valeurs issues de la RAM (position de mario, et des ennemies), mais les résultats n'ont pas été concluant. Il semble que nous ne fournissons pas assez d'informations sur l'environnement au modèle. Nous pourrions imaginer à l'avenir d'utiliser plus de valeurs issues de la RAM afin de savoir si ce type d'agent peut être plus performant que ceux utilisant des images d'images. Cette méthode aurait l'avantage d'avoir des entrées bien plus petites.
 
 ### Graphiques annexes
 
@@ -503,10 +492,10 @@ Enfin, nous avons testé un modèle simple sur un petit nombre de valeurs issues
 
 **Epsilon** = 0.99999775
 
-![training](img/example/density_hist_max_ep_99999775.png)
+![training](ressources/img/example/density_hist_max_ep_99999775.png)
 
 ##### Avec CustomReward
 
 **Epsilon** = 0.999999
 
-![training](img/example/density_hist_custom_rewards.png)
+![training](ressources/img/example/density_hist_custom_rewards.png)
