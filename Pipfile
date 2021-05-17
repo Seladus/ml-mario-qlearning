@@ -17,6 +17,7 @@ gym = "==0.18.0"
 pylint = "*"
 pytest = "*"
 ipykernel = "*"
+jupyterlab = "*"
 
 [requires]
 python_version = "3.8"
