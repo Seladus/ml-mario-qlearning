@@ -231,7 +231,7 @@ L_i (\theta_i) = (y_i - Q(s, a; \theta_i))^2
 avec $`y_i`$ la _target_ telle que :
 
 ```math
-y_i = r + \gamma \max_{a_{t+1}} Q^*(s_{t+1}, a_{t+1}; \theta_{i-1})
+y_i = r + \gamma \max_{a_{t+1}} Q(s_{t+1}, a_{t+1}; \theta_{i-1})
 ```
 
 et notre _feature_:
