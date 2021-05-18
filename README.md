@@ -484,6 +484,12 @@ De plus, nous pourrions essayer d'autres structure pour le Q-network. On pense p
 
 Enfin, nous avons testé un très simple se basant sur quelques de valeurs issues de la RAM (position de mario, et des ennemies), mais les résultats n'ont pas été concluant. Il semble que nous ne fournissons pas assez d'informations sur l'environnement au modèle. Nous pourrions imaginer à l'avenir d'utiliser plus de valeurs issues de la RAM afin de savoir si ce type d'agent peut être plus performant que ceux utilisant des images d'images. Cette méthode aurait l'avantage d'avoir des entrées bien plus petites.
 
+## Bibliographie
+
+- V. Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wierstra, M. Riedmiller [Playing Atari with Deep Reinforcement Learning](https://arxiv.org/abs/1312.5602) - DeepMind@2013
+- H. van Hasselt, A. Guez, D. Silver [Deep Reinforcement Learning with Double Q-Learning](https://arxiv.org/abs/1509.06461) - DeepMind@2015
+- C. Kauten. [Super Mario Bros for OpenAI Gym](https://github.com/Kautenja/gym-super-mario-bros) - 2018
+
 ### Graphiques annexes
 
 #### Histogrammes de densité des récompenses
