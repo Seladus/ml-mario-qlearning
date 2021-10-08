@@ -1,6 +1,6 @@
-# New Super Mario Mario 3D Q
+*Ce dépôt a été initialement créé sur Gitlab. Les fichiers markdown n'affichent donc pas correctement les expressions latex. Pour que tout s'affiche correctement vous pouvez aller voir ce dépôt : https://gitlab.insa-rouen.fr/thalipre/ml-mario-qlearning*
 
-[[_TOC_]]
+# New Super Mario Mario 3D Q
 
 Projet de Machine Learning pour l'apprentissage de Super Mario Bros par des méthodes de renforcement.
 
